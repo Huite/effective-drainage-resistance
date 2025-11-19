@@ -8,6 +8,9 @@ analytical approaches to estimate them for coarse cell sizes.
     .
     ├── LICENSE
     ├── README.md
-    ├── modflow6            <- Contains MODFLOW 6 input and ouput.
+    ├── analysis            <- Contains the analysis workflows.
     ├── figures             <- Contains figures.
-    └── gwsw                <- Source code for this project.
+    ├── gwsw                <- Source code for model setup, analytical approaches.
+    ├── modflow6            <- Contains generated MODFLOW 6 input and ouput.
+    ├── reports             <- Contains PDF material.
+    └── sectiondata          <- Contains generated section parameters.
