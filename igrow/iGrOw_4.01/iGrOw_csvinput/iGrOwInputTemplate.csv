@@ -1,0 +1,4 @@
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# this is a template for an  iinput csv file for iGrOw 3.0,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+cross section form,model bottom,riparian connection,c(drainage-seepage) values,catchment form,iGrOw width (L/2),domain height,drain width (B/2),drain bottom,top talud angle,trap talud 1 over,catchment curvature,drain level,recharge *1000,kxx,kzz,kxz,c drain,c seepage,c base,H base,CELL width,# hor under drain,# hor right of drain,# verleft,# verright,# dens factor,comment

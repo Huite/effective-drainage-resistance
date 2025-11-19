@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html data-markdown-preview-plus-context="html-export">
+  <head>
+    <meta charset="utf-8" />
+    <title>iGrOwManual</title><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX","output/HTML-CSS"],
+    extensions: ["[a11y]/accessibility-menu.js"],
+    'HTML-CSS': {
+      availableFonts: [],
+      webFont: 'TeX',
+      undefinedFamily: "serif",
+      mtextFontInherit: true,
+    },
+    TeX: {
+  "extensions": [
+    "AMSmath.js",
+    "AMSsymbols.js",
+    "noErrors.js",
+    "noUndefined.js"
+  ],
+  "Macros": {},
+  "equationNumbers": {}
+},
+    showMathMenu: true
+  });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js"></script>
+    <style>.emoji {
+  max-width: 1em !important;
+}
+del {
+  text-decoration: none;
+  position: relative;
+}
+del::after {
+  border-bottom: 1px solid black;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+}
+ul.contains-task-list li.task-list-item {
+  position: relative;
+  list-style-type: none;
+}
+ul.contains-task-list li.task-list-item input.task-list-item-checkbox {
+  position: absolute;
+  transform: translateX(-100%);
+  width: 30px;
+}
+span.critic.comment {
+  position: relative;
+}
+span.critic.comment::before {
+  content: '\1f4ac';
+  position: initial;
+}
+span.critic.comment > span {
+  display: none;
+}
+span.critic.comment:hover > span {
+  display: initial;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid;
+  border-radius: 5px;
+  max-height: 4em;
+  overflow: auto;
+}
+span.critic.comment:focus > span {
+  display: initial;
+  text-decoration: underline;
+  position: initial;
+  top: auto;
+  left: auto;
+  border: initial;
+  border-radius: initial;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: transparent;
+}
+
+body {
+  padding: 2em;
+  font-size: 1.2em;
+  color: #383a42;
+  background-color: #fafafa;
+  overflow: auto;
+}
+body > :first-child,
+body > div.update-preview > :first-child {
+  margin-top: 0;
+}
+body > p,
+body > div.update-preview > p {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+body > ul,
+body > div.update-preview > ul,
+body > ol,
+body > div.update-preview > ol {
+  margin-bottom: 1.5em;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #000000;
+}
+h1 {
+  font-size: 2.4em;
+  font-weight: 300;
+}
+h2 {
+  font-size: 1.8em;
+  font-weight: 400;
+}
+h3 {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+h5 {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+h6 {
+  font-size: 1em;
+  font-weight: 600;
+}
+strong {
+  color: #000000;
+}
+del {
+  color: #5e616e;
+}
+a,
+a code {
+  color: #526fff;
+}
+img {
+  max-width: 100%;
+}
+blockquote {
+  margin: 1.5em 0;
+  font-size: inherit;
+  color: #5e616e;
+  border-color: #d1d1d2;
+  border-width: 4px;
+}
+hr {
+  margin: 3em 0;
+  border-top: 2px dashed #d1d1d2;
+  background: none;
+}
+table {
+  margin: 1.5em 0;
+}
+th {
+  color: #000000;
+}
+th,
+td {
+  padding: 0.66em 1em;
+  border: 1px solid #d1d1d2;
+}
+code {
+  color: #000000;
+  background-color: #eaeaeb;
+}
+pre.editor-colors {
+  margin: 1.5em 0;
+  padding: 1em;
+  font-size: 0.92em;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+}
+kbd {
+  color: #000000;
+  border: 1px solid #d1d1d2;
+  border-bottom: 2px solid #c1c1c2;
+  background-color: #eaeaeb;
+}
+
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #383a42;
+  background-color: #e5e5e6;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #fafafa;
+  color: #383a42;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: rgba(56, 58, 66, 0.05);
+}
+pre.editor-colors .invisible {
+  color: #383a42;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #526fff;
+}
+pre.editor-colors .selection .region {
+  background-color: #e5e5e6;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #526fff;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: rgba(56, 58, 66, 0.2);
+}
+pre.editor-colors .indent-guide {
+  color: rgba(56, 58, 66, 0.2);
+}
+pre.editor-colors .wrap-guide {
+  background-color: rgba(56, 58, 66, 0.2);
+}
+pre.editor-colors .find-result .region.region.region,
+pre.editor-colors .current-result .region.region.region {
+  border-radius: 2px;
+  background-color: rgba(82, 111, 255, 0.2);
+  transition: border-color 0.4s;
+}
+pre.editor-colors .find-result .region.region.region {
+  border: 2px solid transparent;
+}
+pre.editor-colors .current-result .region.region.region {
+  border: 2px solid #526fff;
+  transition-duration: .1s;
+}
+pre.editor-colors .gutter .line-number {
+  color: #9d9d9f;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #383a42;
+  background-color: #e5e5e6;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #383a42;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(255, 20, 20, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #383a42;
+}
+.syntax--comment {
+  color: #a0a1a7;
+  font-style: italic;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #a0a1a7;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #cb7701;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #cb7701;
+}
+.syntax--keyword {
+  color: #a626a4;
+}
+.syntax--keyword.syntax--control {
+  color: #a626a4;
+}
+.syntax--keyword.syntax--operator {
+  color: #383a42;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #4078f2;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #b76b01;
+}
+.syntax--storage {
+  color: #a626a4;
+}
+.syntax--storage.syntax--type.syntax--annotation,
+.syntax--storage.syntax--type.syntax--primitive {
+  color: #a626a4;
+}
+.syntax--storage.syntax--modifier.syntax--package,
+.syntax--storage.syntax--modifier.syntax--import {
+  color: #383a42;
+}
+.syntax--constant {
+  color: #b76b01;
+}
+.syntax--constant.syntax--variable {
+  color: #b76b01;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #0184bc;
+}
+.syntax--constant.syntax--numeric {
+  color: #b76b01;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #0184bc;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #0184bc;
+}
+.syntax--variable {
+  color: #e45649;
+}
+.syntax--variable.syntax--interpolation {
+  color: #ca1243;
+}
+.syntax--variable.syntax--parameter {
+  color: #383a42;
+}
+.syntax--string {
+  color: #50a14f;
+}
+.syntax--string > .syntax--source,
+.syntax--string .syntax--embedded {
+  color: #383a42;
+}
+.syntax--string.syntax--regexp {
+  color: #0184bc;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #cb7701;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #e45649;
+}
+.syntax--punctuation.syntax--definition.syntax--comment {
+  color: #a0a1a7;
+}
+.syntax--punctuation.syntax--definition.syntax--method-parameters,
+.syntax--punctuation.syntax--definition.syntax--function-parameters,
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--separator,
+.syntax--punctuation.syntax--definition.syntax--seperator,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #383a42;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #4078f2;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #cb7701;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #a626a4;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #ca1243;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #383a42;
+}
+.syntax--support.syntax--class {
+  color: #cb7701;
+}
+.syntax--support.syntax--type {
+  color: #0184bc;
+}
+.syntax--support.syntax--function {
+  color: #0184bc;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #4078f2;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #4078f2;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #cb7701;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #4078f2;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #e45649;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #b76b01;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #4078f2;
+}
+.syntax--meta.syntax--class {
+  color: #cb7701;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #383a42;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #383a42;
+}
+.syntax--meta.syntax--definition.syntax--variable {
+  color: #e45649;
+}
+.syntax--meta.syntax--link {
+  color: #b76b01;
+}
+.syntax--meta.syntax--require {
+  color: #4078f2;
+}
+.syntax--meta.syntax--selector {
+  color: #a626a4;
+}
+.syntax--meta.syntax--separator {
+  color: #383a42;
+}
+.syntax--meta.syntax--tag {
+  color: #383a42;
+}
+.syntax--underline {
+  text-decoration: underline;
+}
+.syntax--none {
+  color: #383a42;
+}
+.syntax--invalid.syntax--deprecated {
+  color: #000000 !important;
+  background-color: #f2a60d !important;
+}
+.syntax--invalid.syntax--illegal {
+  color: white !important;
+  background-color: #ff1414 !important;
+}
+.syntax--markup.syntax--bold {
+  color: #b76b01;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #a626a4;
+}
+.syntax--markup.syntax--deleted {
+  color: #e45649;
+}
+.syntax--markup.syntax--italic {
+  color: #a626a4;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #e45649;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #4078f2;
+}
+.syntax--markup.syntax--link {
+  color: #0184bc;
+}
+.syntax--markup.syntax--inserted {
+  color: #50a14f;
+}
+.syntax--markup.syntax--quote {
+  color: #b76b01;
+}
+.syntax--markup.syntax--raw {
+  color: #50a14f;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #a626a4;
+}
+.syntax--source.syntax--css .syntax--property-name,
+.syntax--source.syntax--css .syntax--property-value {
+  color: #696c77;
+}
+.syntax--source.syntax--css .syntax--property-name.syntax--support,
+.syntax--source.syntax--css .syntax--property-value.syntax--support {
+  color: #383a42;
+}
+.syntax--source.syntax--elixir .syntax--source.syntax--embedded.syntax--source {
+  color: #383a42;
+}
+.syntax--source.syntax--elixir .syntax--constant.syntax--language,
+.syntax--source.syntax--elixir .syntax--constant.syntax--numeric,
+.syntax--source.syntax--elixir .syntax--constant.syntax--definition {
+  color: #4078f2;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--definition,
+.syntax--source.syntax--elixir .syntax--variable.syntax--anonymous {
+  color: #a626a4;
+}
+.syntax--source.syntax--elixir .syntax--parameter.syntax--variable.syntax--function {
+  color: #b76b01;
+  font-style: italic;
+}
+.syntax--source.syntax--elixir .syntax--quoted {
+  color: #50a14f;
+}
+.syntax--source.syntax--elixir .syntax--keyword.syntax--special-method,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--section,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--source.syntax--empty {
+  color: #e45649;
+}
+.syntax--source.syntax--elixir .syntax--readwrite.syntax--module .syntax--punctuation {
+  color: #e45649;
+}
+.syntax--source.syntax--elixir .syntax--regexp.syntax--section,
+.syntax--source.syntax--elixir .syntax--regexp.syntax--string {
+  color: #ca1243;
+}
+.syntax--source.syntax--elixir .syntax--separator,
+.syntax--source.syntax--elixir .syntax--keyword.syntax--operator {
+  color: #b76b01;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--constant {
+  color: #cb7701;
+}
+.syntax--source.syntax--elixir .syntax--array,
+.syntax--source.syntax--elixir .syntax--scope,
+.syntax--source.syntax--elixir .syntax--section {
+  color: #696c77;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #4078f2;
+}
+.syntax--source.syntax--ini .syntax--keyword.syntax--other.syntax--definition.syntax--ini {
+  color: #e45649;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--modifier.syntax--import {
+  color: #cb7701;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--type {
+  color: #cb7701;
+}
+.syntax--source.syntax--java .syntax--keyword.syntax--operator.syntax--instanceof {
+  color: #a626a4;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair {
+  color: #e45649;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair > .syntax--punctuation {
+  color: #383a42;
+}
+.syntax--source.syntax--ts .syntax--keyword.syntax--operator {
+  color: #0184bc;
+}
+.syntax--source.syntax--flow .syntax--keyword.syntax--operator {
+  color: #0184bc;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #e45649;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #e45649;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #50a14f;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #0184bc;
+}
+.syntax--ng.syntax--interpolation {
+  color: #e45649;
+}
+.syntax--ng.syntax--interpolation.syntax--begin,
+.syntax--ng.syntax--interpolation.syntax--end {
+  color: #4078f2;
+}
+.syntax--ng.syntax--interpolation .syntax--function {
+  color: #e45649;
+}
+.syntax--ng.syntax--interpolation .syntax--function.syntax--begin,
+.syntax--ng.syntax--interpolation .syntax--function.syntax--end {
+  color: #4078f2;
+}
+.syntax--ng.syntax--interpolation .syntax--bool {
+  color: #b76b01;
+}
+.syntax--ng.syntax--interpolation .syntax--bracket {
+  color: #383a42;
+}
+.syntax--ng.syntax--pipe,
+.syntax--ng.syntax--operator {
+  color: #383a42;
+}
+.syntax--ng.syntax--tag {
+  color: #0184bc;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--attribute-name {
+  color: #cb7701;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string {
+  color: #a626a4;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--begin,
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--end {
+  color: #383a42;
+}
+.syntax--source.syntax--php .syntax--class.syntax--bracket {
+  color: #383a42;
+}
+/*
+   This defines styling rules for syntax classes.
+
+   See the naming conventions for a list of syntax classes:
+   https://flight-manual.atom.io/hacking-atom/sections/syntax-naming-conventions
+
+   When styling rules conflict:
+   - The last rule overrides previous rules.
+   - The rule with most classes and pseudo-classes overrides the last rule.
+*/
+.syntax--keyword {
+  color: #a626a4;
+}
+.syntax--keyword.syntax--type {
+  color: #0184bc;
+}
+.syntax--keyword.syntax--operator {
+  color: #a626a4;
+}
+.syntax--keyword.syntax--function {
+  color: #e45649;
+}
+.syntax--keyword.syntax--variable {
+  color: #e45649;
+}
+.syntax--keyword.syntax--symbolic {
+  color: #383a42;
+}
+.syntax--entity {
+  color: #383a42;
+}
+.syntax--entity.syntax--parameter {
+  color: #383a42;
+}
+.syntax--entity.syntax--support {
+  color: #e45649;
+}
+.syntax--entity.syntax--decorator:last-child {
+  color: #4078f2;
+}
+.syntax--entity.syntax--label {
+  text-decoration: underline;
+}
+.syntax--entity.syntax--function {
+  color: #4078f2;
+}
+.syntax--entity.syntax--operator {
+  color: #4078f2;
+}
+.syntax--entity.syntax--operator.syntax--symbolic {
+  color: #383a42;
+}
+.syntax--entity.syntax--type {
+  color: #0184bc;
+}
+.syntax--entity.syntax--tag {
+  color: #e45649;
+}
+.syntax--entity.syntax--attribute {
+  color: #b76b01;
+}
+.syntax--punctuation {
+  color: #383a42;
+}
+.syntax--punctuation.syntax--accessor {
+  color: #383a42;
+}
+.syntax--string {
+  color: #50a14f;
+}
+.syntax--string.syntax--immutable {
+  color: #50a14f;
+}
+.syntax--string.syntax--part {
+  color: #0184bc;
+}
+.syntax--string.syntax--interpolation {
+  color: #383a42;
+}
+.syntax--string.syntax--regexp {
+  color: #50a14f;
+}
+.syntax--string.syntax--regexp.syntax--language {
+  color: #a626a4;
+}
+.syntax--string.syntax--regexp.syntax--variable {
+  color: #4078f2;
+}
+.syntax--string.syntax--regexp.syntax--punctuation {
+  color: #a626a4;
+}
+.syntax--constant {
+  color: #b76b01;
+}
+.syntax--constant.syntax--character {
+  color: #50a14f;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #50a14f;
+}
+.syntax--constant.syntax--character.syntax--code {
+  color: #0184bc;
+}
+.syntax--text {
+  color: #383a42;
+}
+.syntax--markup.syntax--heading {
+  color: #e45649;
+}
+.syntax--markup.syntax--list.syntax--punctuation {
+  color: #e45649;
+}
+.syntax--markup.syntax--quote {
+  color: #a0a1a7;
+  font-style: italic;
+}
+.syntax--markup.syntax--bold {
+  color: #b76b01;
+  font-weight: bold;
+}
+.syntax--markup.syntax--italic {
+  color: #a626a4;
+  font-style: italic;
+}
+.syntax--markup.syntax--underline {
+  color: #0184bc;
+  text-decoration: underline;
+}
+.syntax--markup.syntax--strike {
+  color: #e45649;
+}
+.syntax--markup.syntax--raw {
+  color: #50a14f;
+}
+.syntax--markup.syntax--link {
+  color: #0184bc;
+}
+.syntax--markup.syntax--alt {
+  color: #4078f2;
+}
+.syntax--markup.syntax--inserted {
+  color: #50a14f;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #50a14f;
+}
+.syntax--markup.syntax--highlighted {
+  color: #50a14f;
+}
+.syntax--markup.syntax--highlighted .syntax--punctuation {
+  color: #50a14f;
+}
+.syntax--markup.syntax--deleted {
+  color: #e45649;
+}
+.syntax--markup.syntax--deleted .syntax--punctuation {
+  color: #e45649;
+}
+.syntax--markup.syntax--changed {
+  color: #a626a4;
+}
+.syntax--markup.syntax--changed .syntax--punctuation {
+  color: #a626a4;
+}
+.syntax--markup.syntax--commented {
+  color: #a0a1a7;
+}
+.syntax--markup.syntax--commented .syntax--punctuation {
+  color: #a0a1a7;
+}
+.syntax--comment {
+  color: #a0a1a7;
+  font-style: italic;
+}
+.syntax--comment.syntax--caption {
+  color: #afb0b6;
+  font-weight: bold;
+}
+.syntax--comment.syntax--term {
+  color: #b7b8bd;
+}
+.syntax--comment.syntax--punctuation {
+  color: #a0a1a7;
+  font-weight: normal;
+}
+.syntax--invalid:not(.syntax--punctuation).syntax--illegal {
+  color: white !important;
+  background-color: #ff1414 !important;
+}
+.syntax--invalid:not(.syntax--punctuation).syntax--deprecated {
+  color: #000000 !important;
+  background-color: #f2a60d !important;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function {
+  color: #696c77;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function.syntax--support {
+  color: #0184bc;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector {
+  color: #b76b01;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--tag {
+  color: #e45649;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--id {
+  color: #4078f2;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--property {
+  color: #696c77;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--property.syntax--support {
+  color: #383a42;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--variable {
+  color: #e45649;
+}
+.syntax--source.syntax--css .syntax--constant {
+  color: #696c77;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--support {
+  color: #383a42;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--numeric {
+  color: #b76b01;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--media {
+  color: #b76b01;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color {
+  color: #b76b01;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset {
+  color: #383a42;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--attribute-value {
+  color: #50a14f;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector {
+  color: #b76b01;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--wildcard {
+  color: #e45649;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--id {
+  color: #4078f2;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--attribute {
+  color: #383a42;
+}
+</style>
+
+  </head>
+  <body>
+    <p>(version 2.6)</p>
+<h1>Table of contents <a name="top"></a></h1>
+<ul>
+<li><a href="#introdution">Introduction</a>
+<ul>
+<li><a href="#install">Install</a></li>
+<li><a href="#openhtml">Open the html and first impression</a></li>
+<li><a href="#resizewindow">Resizing window</a></li>
+<li><a href="#handlingmenus">Handling the menus</a></li>
+<li><a href="#localzoom">Zooming in the local view</a></li>
+</ul>
+</li>
+<li><a href="#geosettings">The geometrical variables</a>
+<ul>
+<li><a href="#geomenu">The geomenu</a></li>
+<li><a href="#riverform">The bed form of the drain</a></li>
+<li><a href="#calcgeo">Calculated geometrical variables</a></li>
+<li><a href="#addbaselayer">Adding a base layer</a></li>
+<li><a href="#aspectplot">The aspect of the plots</a></li>
+</ul>
+</li>
+<li><a href="#physicalmenu">The physical variables</a>
+<ul>
+<li><a href="#hydrovarsmenu">The hydro-vars-menu</a></li>
+<li><a href="#drainresistance">The outflow resistance</a></li>
+</ul>
+</li>
+<li><a href="#equations">The flow equations</a></li>
+<li><a href="#numericsettings">The numerical settings</a>
+<ul>
+<li><a href="#numericmenu">The numeric menu</a></li>
+<li><a href="#nodesandcells">discretization nodes and cells</a></li>
+</ul>
+</li>
+<li><a href="#solution">Calculation of the numerical solution </a></li>
+<li><a href="#analsol">Analyzing the solution</a>
+<ul>
+<li><a href="#solutionmenu">Solving and solution menu</a></li>
+<li><a href="#watertable">Water table</a></li>
+<li><a href="#hfills">H fills</a></li>
+<li><a href="#contours">Contours</a></li>
+<li><a href="#flowdirection">Flow direction</a></li>
+<li><a href="#fluxes">Fluxes</a></li>
+<li><a href="#nodeinspector">Node inspector</a></li>
+<li><a href="#cellanalysis">Cell analysis</a></li>
+<li><a href="#wettedperimeter">Wetted perimeter</a></li>
+</ul>
+</li>
+<li><a href="#table">Using the table</a>
+<ul>
+<li><a href="#tableoverview">Overview of the variables stored in the table</a></li>
+<li><a href="#activestorage">Active table storage</a></li>
+<li><a href="#archiving">Archiving in the tabel</a></li>
+<li><a href="#activating">Activating archived row</a></li>
+<li><a href="#downloadtable">Download table to CSV</a></li>
+<li><a href="#uploadtable">Running cases/uploading form CSV</a></li>
+</ul>
+</li>
+<li><a href="#nonmenu">Non-menu settings</a></li>
+</ul>
+<h2>Introduction <a name="introdution"></a></h2>
+<p><em>iGrOw</em> is a program packed in a html-document that calculates
+the groundwater flow  in the top layer to an open water ditch in a vertical cross section.
+Assuming symmetry between two ditches as in the figure below, it actually caclultes on the left halve of the part between the ditches and the right part of the ditch on the left:</p>
+<p float="center">
+ <img src="Manual_Images/iGrOwDomain0-1.png" width="450" style="box-shadow: 2px 2px 15px #888888">
+</p>
+<p>It is important to remember that <em>iGrOw</em> considers and calculates only <strong>that halve</strong>:
+so when the value of the width of the ditch is required as input parameter, <strong>halve of the total</strong> width should be given, and when <em>iGrOw</em> produces the groundwater flux to the ditch, it is the flux through the dashed area in the figure above, so only halve of the total fluxes from the left and the right that end up in the total ditch.</p>
+<p><em>iGrOw</em> is a program packed in a html-document. As output the program produces in the browser where it is opened three views (positioned vertically underneath each other, so the vertical scroll bar has to be used to go from one to the other), illustrated by in the picture  below:</p>
+<p float="left">
+  <img src="Manual_Images/GlobalView.png" width="250" style="box-shadow: 2px 2px 15px #888888">
+  <img src="Manual_Images/LocalView.png" width="250" style="box-shadow: 2px 2px 15px #888888">
+  <img src="Manual_Images/NumbersView.png" width="250" style="box-shadow: 2px 2px 15px #888888">
+</p>
+<ul>
+<li>
+<p>a global view: showing the total system from the water divide on the left to the water divide</p>
+</li>
+<li>
+<p>a local view: showing the system near the open water on the left</p>
+</li>
+<li>
+<p>a number view: interesting input and output numbers are combined in a table.</p>
+</li>
+</ul>
+<p>Moreover <em>iGrOw</em> uses six graphical menus as interface.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Install</h3>
+<p><a name="install"></a>
+Extract all the files of <strong>iGrOw.zip</strong> into one folder. The content of the folder should look like in the following figure:</p>
+<br>
+<img src="Manual_Images/folderview.png" alt="drawing" width="700" style="box-shadow: 2px 2px 15px #888888">
+<br>
+<br>
+<ul>
+<li>
+<p><strong>iGrOw.html</strong>: the application itself</p>
+</li>
+<li>
+<p><strong>scripts</strong>: folder containing javascript sources to be used by <em>iGrOw.html</em>.  Only if one is interested in the code one should open this folder.</p>
+</li>
+<li>
+<p><strong>CSV</strong>: folder containing helping examples for uploading cases. The uses of the files in this folder will be explained later.</p>
+</li>
+<li>
+<p><strong>iGrOw_Manual.html</strong>: short manual explaining the use of the application <em>iGrOw.html</em>, this is what you are reading now.</p>
+</li>
+<li>
+<p><strong>Manual_Images</strong>: images used in this manual</p>
+</li>
+</ul>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Opening the html and first impression <a name="openhtml"></a></h3>
+<p>Both files <em>iGrOwManual.html</em> and <em>iGrOw.html</em> can be opened  with almost all browsers.
+You succeeded opening the first one, otherwise you would not be reading this.</p>
+<p>Opening <em>iGrOw.html</em> shows a screen as in the following figure:</p>
+<img src="Manual_Images/FirstOpen.png" alt="drawing" width="700">
+<br>
+<p>It may be useful to open this manual in a second tab of the browser, as illustrated in the figure above. Clicking on the “<em>open help</em>” button in the menu does exactly that.</p>
+<p>Only part of the graphs can be seen in the window, as the vertical scroll bar suggests.</p>
+<p>To get a fast first impression:</p>
+<ul>
+<li>click in the <em>“num vars”</em> menu the <em>“make discretisation”</em> button</li>
+<li>click in the <em>“solution”</em> menu" the <em>“solve”</em> button</li>
+<li>explore the options that appear now in this <em>“solution”</em> menu (for more info see the section on <a href="#analsol">anlyzing the solution</a>)</li>
+</ul>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Resizing the browser window <a name="resizewindow"></a></h3>
+<p>The size of the graphs presented adjust them self to the size of the browser window.
+If one does change the size of the browser window one can force this adjustment by hitting the “reload” button (may differ between browsers) as in the following figure:</p>
+<img src="Manual_Images/ResizeWindow.gif" alt="drawing" width="700">
+<p>Reloading the “iGrOw.html” however undoes all settings and calculations.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Handling the menus <a name="handlingmenus"></a></h3>
+<p>The interface of <em>iGrOW</em> is strongly interactive. Several menus make this possible.
+As the program opens, all of these menus are open. One can however close these menus, and open the ones of choice, as shown by:
+<img src="Manual_Images/HandlingMenus.gif" alt="drawing" width="700"></p>
+<p>Moreover, these menus can be dragged to an arbitrary postion.
+By double clicking on the top, a menu changes from minimized to full and back again.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Zooming in the local view <a name="localzoom"></a></h3>
+<p>The local view of the systems opens with a preselected width and the total depth. The cross-like symbol on the left top  (which can be dragged to any position) allows the user to change this:</p>
+<img src="Manual_Images/ChangeLocalView.gif" alt="drawing" width="600">
+<ul>
+<li>
+<p>clicking on the red triangles pointing to the left and right increases and decreases the width of this view</p>
+</li>
+<li>
+<p>clicking on the red triangles pointing to up and down changes the vertical selection</p>
+</li>
+<li>
+<p>clicking on the green square in the middle goes back to the original preselection</p>
+</li>
+</ul>
+<p><a href="#top">(Back to top)</a></p>
+<h2>The geometrical variables <a name="geosettings"></a></h2>
+<h3>The geomenu <a name="geomenu"></a></h3>
+<p>The geomenu collects all the settings of parameters that have a pure geometrical meaning.</p>
+<p>In principle the user can choose any unit for these parameters, but in all the examples that follow it is assumed that the values are given in [m].</p>
+<p>Opening the “geo”-menu is done by checking the first box of the main menu. Unchecking it removes this menu from the window.
+When checked,  a new menu (that can also be dragged, minimized and maximized) appears in the window showing the geometrical variables whose values can be changed through this menu, as is shown in the following figure:</p>
+<img src="Manual_Images/GeoMenu.png" alt="drawing" width="700">
+<p>The following figure clarifies the meaning of the 5 first values in this menu.</p>
+<img src="Manual_Images/GeoDomain.png" alt="drawing" width="600" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+<br>
+These values are:
+<ul>
+<li><strong>iGrOw width (L/2)</strong>: the width of vertical model section; the (L/2) is added to remind the user of the classical view that on the right hand side of the water divide one can think of a mirror image of the one modeled here in the window (with a drain on the far right), so that in that way the “whole” groundwater between the drains has a width of <span class="math inline-math"><script type="math/tex">L_\mathrm{ditch}</script></span>. See also introduction and illustration below.</li>
+<li><strong>drain width (B/2)</strong>: the width is measured to the top of the drain, so it measures the “dry” width and is the halve of  the physical width <span class="math inline-math"><script type="math/tex">B_\mathrm{ditch}</script></span> as
+the (1/2) suggests a mirror part of the drain to the right of the left water divide in the drain. See also introduction and illustration below.</li>
+<li><strong>domain height</strong>: measured with respect to the bottom of the model, which is assumed to have height 0</li>
+<li><strong>drain bottom</strong>: height of the bottom of the drain with respect of the bottom of the model.</li>
+<li><strong>talud angle</strong>: angle of the bed at the right top (see also <a href="#riverform">bed form section</a> and <a href="#nodesandcells">numerical section</a>).</li>
+</ul>
+ <p float="center">
+  <img src="Manual_Images/iGrOwdomain1-1.png" width="450" style="box-shadow: 2px 2px 15px #888888">
+ </p>
+<p>Changing a value in this geo-menu has an immediate effect on all plots in the window as can be seen in the following picture:</p>
+<img src="Manual_Images/GeoMenuChange.gif" alt="drawing" width="700">
+<p>All these values have preset minimum and maximum values (set in the script  “iGrOwmenu.js”).
+There are also relations between the settings that need to be satisfied. For instance, the drain bottom should never be higher than the domain height. The user is warned if he nevertheless tries to do this.
+So if one wants to lower the domain height and the drain bottom in such a way that the new domain height is below the current drain bottom, one should <strong>first</strong> lower the drain bottom to avoid this type of conflicts.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>The bed form of the drain <a name="riverform"></a></h3>
+<p>The bed form of the drain is a smooth curve determined by three parameters: bottom height, width and angle, as illustrated in the following figure:</p>
+<img src="Manual_Images/Bedformparameters.png" alt="drawing" width="600" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+<br>
+Technically, the smooth curve of the drain bottom is determined by a cubic spline:
+<span class="math display-math"><script type="math/tex; mode=display">z(x) = a_0 + a_1 \; x + a_2\; x^3 + a_3 \; x^3
+</script></span>
+<p>uniquely defined by:</p>
+<ul>
+<li>a point <span class="math inline-math"><script type="math/tex">x_b</script></span> on the drain bottom, left of which we assume <span class="math inline-math"><script type="math/tex">z= z_\mathrm{drain bottom}</script></span></li>
+<li>on that point <span class="math inline-math"><script type="math/tex">x_b</script></span> we impose <span class="math inline-math"><script type="math/tex">z(x_b) = z_\mathrm{drain bottom}</script></span> and <span class="math inline-math"><script type="math/tex">dz/dx(x_b)=0</script></span></li>
+<li>at the point <span class="math inline-math"><script type="math/tex">x_e=x_\mathrm{drainwidth}</script></span> we impose  <span class="math inline-math"><script type="math/tex">z(x_e) = z_\mathrm{domainheight}</script></span> and <span class="math inline-math"><script type="math/tex">dz/dx(x_e)= \alpha</script></span>, the given slope of the talud. For numerical reasons, the maximal slope is set to 89.</li>
+</ul>
+<p>The following figure shows 3 of such splines.</p>
+<br>
+<img src="Manual_Images/drainspline.png" alt="drawing" width="600" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+<br>
+<p>The figure above shows that if we choose <span class="math inline-math"><script type="math/tex">x_b=x_1</script></span> too far to the left, the resulting spline
+takes values below the drain bottom, which is unwanted. For values at the right, as e.g. <span class="math inline-math"><script type="math/tex">x_b=x_2</script></span> this is no longer the case. <em>iGrOw</em> chooses the smallest value <span class="math inline-math"><script type="math/tex">x_b=x_*</script></span> for which the spline does not give values below the drain bottom.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Calculated geometrical variables <a name="calcgeo"></a></h3>
+<p>In the sections above the geometrical <strong>input</strong> variables were discussed.
+<em>iGrOw</em> also calculates geometrical variables derived from these. They are stored in the <a href="#table">table</a> part of the output.
+The following two variables are calculated:</p>
+<ul>
+<li>the width of the land part of <em>iGrOw</em>, called “<em>iGrOW land width</em>” in the table, and calculated by <span class="math inline-math"><script type="math/tex">L_\mathrm{land}/2 = L_\mathrm{ditch}/2  - B_\mathrm{dicth}/2</script></span></li>
+</ul>
+<img src="Manual_Images/iGrOwLand-1.png" alt="drawing" width="600" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<ul>
+<li>the length of (a numerical approximation of) the cross section of the <em>iGrOw</em> part of drain, called <em>“Ow Per”</em> in the table.</li>
+</ul>
+<img src="Manual_Images/iGrOwPerim0-1.png" alt="drawing" width="600" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<h3>Add base layer <a name="addbaselayer"></a></h3>
+<p>The second to last button in the geo-menu “add base layer” changes the system to solve.</p>
+<ul>
+<li>If checked, the lower boundary is considered to be permeable, and connected to a lower layer which is called “base layer”. In the graphs this is visible by the fact that the lower bottom line is no longer presented by a thick line, as in the figure below:</li>
+<li>If unchecked, the lower boundary of the system is considered to be impermeable (as indicated by the ticker line, also used for the left and right water divides)</li>
+</ul>
+<img src="Manual_Images/AddBaseLayer.gif" alt="drawing" width="700">
+<p>If checked, extra input fields appear in the  hydro-vars-menu (see the relevant
+   <a href="#hydrovarsmenu">section</a> ).</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>The aspect of the plots  <a name="aspectplot"></a></h3>
+<p><img src="images/WithBaseLayer.png" alt=""></p>
+<p>The graphs shown have different x-axis and y-axis scales, chosen such as to fill the available space in the window.
+In the menu, this is called the “image” aspect. Plotting under this aspect does not preserve orthogonality. By choosing the “physical” aspect an x over y = 1 aspect is used for plotting. The difference between image and the physical aspect is usually much larger for the top graph, shown here in the image below:</p>
+<img src="Manual_Images/ChangeAspect.gif" alt="drawing" width="700">
+<p>The “physical” aspect plot the true curvatures and angles, orthogonality correctly presented.
+That in contrast with the “image” aspect curvatures and angles are not  represented according to their true physical values.</p>
+<p>The local view is excluded from this aspect change, as it has its own re-scaling methods (see <a href="#localzoom">section</a>).</p>
+<p><a href="#top">(Back to top)</a></p>
+<h2>The physical variables <a name="physicalmenu"></a></h2>
+<p>In this section the physical variables needed as input are discussed.
+The physical variables calculation will be discussed in the <a href="#analsol">analyzing the solution</a> section.</p>
+<h3>The hydro-vars-menu <a name="hydrovarsmenu"></a></h3>
+<a name="foo"></a>
+<p>The <em>hydro vars</em> menu (appears if second box in main menu is checked, again: can be dragged to any place in the window, minimized and maximized by double-clicking) allows the user to set value for physical variables. The precise role of these variables is explained in the <a href="#equations">equations section</a>. The two drain resistance parameters (<em>c_drain</em> and <em>c_seepage</em>) will be explained in the <a href="#drainresistance">next section</a>.</p>
+<p>The parameters in this menu also involve time. In principle the user can choose any time unit, but in all examples that follow this time unit is [day].</p>
+<p>Changing the drain level gives immediate changes in the graphs. Changes of the other values will only become visible through their effects on the solution. Note that the recharge input value will be divided by 1000 when used in the calculations (so that with the choice of [m] for length en [day] for time, the unit of this field is [mm/day]).</p>
+<p>The following figure shows this menu:
+<img src="Manual_Images/HydroVarsMenu.png" alt="drawing" width="700"></p>
+<p>The horizontal conductivity is given by <span class="math inline-math"><script type="math/tex">k_{xx}</script></span>, the vertical by <span class="math inline-math"><script type="math/tex">k_{zz}</script></span> (and <span class="math inline-math"><script type="math/tex">k_{x,z}</script></span> should be non-zero if a tensor is to be used, see <a href="#equations">section</a>).
+With the standard choice of units, these parameters are in [m/day].</p>
+<p>When one the option <em>add lower boundary layer</em> was chosen in the <em>geo-menu</em>, two new fields are added to this menu to be used to calculate the fluxes over this lower boundary, as in the following figure:</p>
+<img src="Manual_Images/HydroVarsMenuBL.png" alt="drawing" width="700">
+<p><a href="#top">(Back to top)</a></p>
+<h3>The outflow resistance <a name="drainresistance"></a></h3>
+<p>The resistance of the groundwater flow to the drain is determined by two parameters: <em>c_drain</em> and <em>c_seepage</em>.</p>
+<p>Resistances have the dimensions of time, so with the standard choice of unit these should be given in [day].</p>
+<p>This resistance is depth dependent <span class="math inline-math"><script type="math/tex">c(z)</script></span></p>
+<ul>
+<li>
+<p>below the water level the resistance is linearly interpolated between the values <em>c_drain</em>
+and <em>c_seepage</em></p>
+</li>
+<li>
+<p>above the water level, the resistance is constant and equals  <em>c_seepage</em></p>
+</li>
+</ul>
+<p>It is clear that one should have <em>c_seepage</em> <span class="math inline-math"><script type="math/tex">\leq</script></span> <em>c_drain</em>, equality occuring when the resistance is constant over depth.</p>
+<p>The following figure illustrates this depth relation:</p>
+<br>
+<img src="Manual_Images/coutflow.png" alt="drawing" width="600" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+<br>
+<p><a href="#top">(Back to top)</a></p>
+<h2>The flow equations <a name="equations"></a></h2>
+<p>
+<img src="Manual_Images/EquationsExplained.png" alt="drawing" width="650">
+</p>
+<p>The problem to solve is to calculate for each point <span class="math inline-math"><script type="math/tex">(x,z)</script></span> below the groundwater surface the <em>groundwater head</em> <span class="math inline-math"><script type="math/tex">H(x,z)</script></span>.
+In the figure above the variation of <span class="math inline-math"><script type="math/tex">H</script></span> is indicated by colors.</p>
+<p>Calculating the position of the groundwater surface is part of the problem to be solved.
+The groundwater surface consists of the points <span class="math inline-math"><script type="math/tex">(x,z)</script></span> for which the following equation holds:</p>
+<span class="math display-math"><script type="math/tex; mode=display">H(x,z) = z
+</script></span>
+<p>The <em>flux</em> is calculated by:</p>
+<span class="math display-math"><script type="math/tex; mode=display">\vec{Q}=
+\begin{bmatrix}
+    Q_x \\
+    Q_z
+  \end{bmatrix}
+  = - \begin{bmatrix}
+      k_{xx} & k_{xz} \\
+      k_{xz} & k_{zz}
+    \end{bmatrix}
+    \begin{bmatrix}
+        \partial H/\partial x\\
+        \partial H/\partial z
+      \end{bmatrix}
+</script></span>
+<p>The <em>mass balance equation</em> is in each point <span class="math inline-math"><script type="math/tex">(x,z)</script></span> given by:</p>
+<span class="math display-math"><script type="math/tex; mode=display">  \frac{\partial Q_x}{\partial x}(x,z) + \frac{\partial Q_z}{\partial z}(x,z)={q}(x,z)
+</script></span>
+<p>The external flux has different expressions on different parts of the domain:</p>
+<ol>
+<li>
+<p>in a point <span class="math inline-math"><script type="math/tex">A</script></span> in the interior of the domain the external flux is not present:</p>
+<span class="math display-math"><script type="math/tex; mode=display">q(A) = 0
+</script></span>
+</li>
+<li>
+<p>in a point <span class="math inline-math"><script type="math/tex">B</script></span> on the groundwater surface not in direct contact with the drain (so the whole groundwater table to the left of the point <span class="math inline-math"><script type="math/tex">F</script></span> in the figure), the external flux is given by the recharge intensity <span class="math inline-math"><script type="math/tex">r</script></span>:</p>
+<span class="math display-math"><script type="math/tex; mode=display">q(B) = r
+</script></span>
+</li>
+<li>
+<p>the left and right boundaries are considered as water divides, so no water enters or leaves the system there so that for a point <span class="math inline-math"><script type="math/tex">C</script></span>:</p>
+<span class="math display-math"><script type="math/tex; mode=display">q(C) = 0
+</script></span>
+</li>
+<li>
+<p>At a point <span class="math inline-math"><script type="math/tex">D</script></span> on the lower boundary, two choices are possible:</p>
+</li>
+</ol>
+<ul>
+<li>when the lower boundary is considered impermeable, the flux is just zero:<span class="math display-math"><script type="math/tex; mode=display">q(D) = 0
+</script></span>
+</li>
+<li>if the lower boundary is permeable and the system is contact with a lower groundwater layer  called <em>base layer</em> with a constant head <span class="math inline-math"><script type="math/tex">H_{base}</script></span>. For any point <span class="math inline-math"><script type="math/tex">D</script></span> on this lower boundary the flux is then given by:<span class="math display-math"><script type="math/tex; mode=display">q(D) = \frac{H_{base}-H(D)}{c_{base}}
+</script></span>
+where <span class="math inline-math"><script type="math/tex">c_{base}</script></span> is the resistance of the exchange</li>
+</ul>
+<ol start="5">
+<li>
+<p>at points as <span class="math inline-math"><script type="math/tex">E</script></span> where the system is contact with the water in the drain (with constant head <span class="math inline-math"><script type="math/tex">H_{drain}</script></span> and resistance <span class="math inline-math"><script type="math/tex">c_{drain}</script></span>
+the flux is given by:</p>
+<span class="math display-math"><script type="math/tex; mode=display">q(E) = \frac{H_{drain}-H(E)}{c(z_E)}
+</script></span>
+<p>for <span class="math inline-math"><script type="math/tex">c(z_E)</script></span> see the section on <a href="#drainresistance">outflow resistance</a></p>
+</li>
+<li>
+<p>at points as <span class="math inline-math"><script type="math/tex">F</script></span> where the system is contact with the atmosphere  the flux is given by:</p>
+<span class="math display-math"><script type="math/tex; mode=display">q(F) = \frac{z_F-H(F)}{c_{seepage}}
+</script></span>
+</li>
+</ol>
+<p><a href="#top">(Back to top)</a></p>
+<h2>The numerical settings <a name="numericsettings"></a></h2>
+<h3>The numeric menu <a name="numericmenu"></a></h3>
+<p>As the equations can not be solved analytically, a numerical solution will be calculated. The first step  in this procedure is make a discretization of space. A finite number of nodes will be placed in the domain, and only in these nodes an approximation to the <span class="math inline-math"><script type="math/tex">H</script></span>'s will be calculated. As the solution will show dramatically different variations throughout the solution domain, with very horizontal flow on the right and with strongly curved flow near the bottom of the drain.  A critical point is thus the rightmost point of the drain. A uniform discretization would require an extremely large number of nodes. Therefor a non-uniform discretization is implemented.
+The following figure shows the parameters determining such a discretization as can be set through the <em>numerical vars</em> menu:</p>
+<img src="Manual_Images/NumericalMenu1.png" alt="drawing" width="700">
+<p>The discretization nodes will be generated on a regular grid of straight vertical lines and curved horizontal ones.
+Initially  this grid will fill the total below-ground space.
+The grid is adaptive: it will adjust itself to the solution such that the grid only fills that part of the domain beneath the groundwater surface. This will be done in such a way that they stay on their original vertical line, to the top will be on the groundwater surface and the nodes on each vertical will keep their relative distances.</p>
+<p>As the nodes are positioned on a grid, a discretization is specified by giving horizontal and vertical information:</p>
+<ol>
+<li>
+<p>“#hor under drain”: the number of vertical lines of nodes underneath the drain level</p>
+</li>
+<li>
+<p>“#hor right of drain”: the number of vertical lines of nodes on the right hand side of the drain level</p>
+</li>
+<li>
+<p>“densification hor”: the larger this number, the more the vertical lines cluster around the right most point of the drain (and thus the less uniform the discretization is), see also the last figure of this section.</p>
+</li>
+<li>
+<p>“densification ver”: the larger this number, the more the nodes cluster at the top (and thus the less uniform the discretization is), see also last figure of this section.</p>
+</li>
+</ol>
+<p><a href="#top">(Back to top)</a></p>
+<h3>discretization nodes and cells <a name="nodesandcells"></a></h3>
+<p>Once a discretization is made with the chosen parameters by clicking the “make discretization” button, two new fields appear in the menu allowing the user to inspect the nodes and the cells, as shown in the following  two figures:</p>
+<img src="Manual_Images/NumericalMenu2.png" alt="drawing" width="700">
+<img src="Manual_Images/NumericalMenu3.png" alt="drawing" width="700">
+<p>The example of these figures also show that the non-uniformity is such that both views are needed to inspect a typical discretization.</p>
+<p>The following figure shows the result of a different choice of densification:</p>
+<img src="Manual_Images/NumericalMenu4.png" alt="drawing" width="700">
+<p>A bad choice of discretization may result in a poor approximation of the drain bed as illustrated by the following image:
+<br>
+<img src="Manual_Images/DiscretisationBed.png" alt="drawing" width="400" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+The bed from is depicted in the graph with a high resolution (using the formulas in this <a href="#riverform">section</a>), but the solution will only see the discretization nodes, and by that will not capture the slope at the right.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h2>Calculation of the numerical solution  <a name="solution"></a></h2>
+<p>Once a discretization made, a numerical solution can be calculated. As the differential equations (see above) are essentially balance equations, the solving procedure tries iteratively to find head values in the nodes (<span class="math inline-math"><script type="math/tex">H_i</script></span>) such that the numerical mass balances for each node the numerical mass balance error is minimized.</p>
+<br>
+<img src="Manual_Images/OneCell.png" alt="drawing" width="300" height="300" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+<br>
+<p>The fluxes for the numerical balances are calculated in the numerical cells. The figure above shows such a typical cell (<span class="math inline-math"><script type="math/tex">n_1-n_2-n_3-n_4</script></span>) in which approximations of the fluxes are to be calculated, based on the heads (<span class="math inline-math"><script type="math/tex">H_1,H_2,H_3,H_4</script></span>) at the four corners. This is done by creating the intersection point of the diagonals <span class="math inline-math"><script type="math/tex">n_m</script></span> and assigning to it the mean value (<span class="math inline-math"><script type="math/tex">(H_1+H_2+H_3+H_3)/4</script></span>) to it.
+In each of the four resulting triangles the heads can be interpolated linearly, head gradients and from this fluxes can be calculated. Combining these values for fluxes <span class="math inline-math"><script type="math/tex">Q_{n_i\rightarrow n_j}\;\; i,j=1,\dots 4</script></span> can be calculated.</p>
+<p>Once the fluxes are calculated, balances for each node can be made by considering the four cells of which this node is a corner, as in the figure below:</p>
+<br>
+<img src="Manual_Images/FourCells1.png" alt="drawing" width="300" height="300" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+<br>
+<p>The balance for the central node <span class="math inline-math"><script type="math/tex">C</script></span> can now be written as:</p>
+<span class="math display-math"><script type="math/tex; mode=display">Q_{N \rightarrow C} + Q_{NE \rightarrow C} + Q_{E \rightarrow C} +  Q_{SE \rightarrow C} + Q_{S \rightarrow C} +  Q_{SW \rightarrow C} +  Q_{W \rightarrow C} +  Q_{NW \rightarrow C} = 0
+</script></span>
+<p>If the node is on the border of the domain, external fluxes can be added.</p>
+<p>The <a href="#nodeinspector">node inspector</a> of the solution analysis allows the user to inspect the numerical values of these fluxes.</p>
+<p>A typical step in the iterative solution consists of:</p>
+<ul>
+<li>
+<p>adjusting the <span class="math inline-math"><script type="math/tex">H_i</script></span> values as the nodes such that the mass  balances in the nodes are satisfied</p>
+</li>
+<li>
+<p>adjusting the nodes and the cells such that they fall below the groundwater table given by the <span class="math inline-math"><script type="math/tex">H(x,z)=z</script></span> line</p>
+</li>
+</ul>
+<p>A result of this last adjustment is seen in the following figure:</p>
+<img src="Manual_Images/AdaptedGrid.png" alt="drawing" width="700">
+<p><a href="#top">(Back to top)</a></p>
+<h2>Analyzing the solution  <a name="analsol"></a></h2>
+<h3>Solving and solution menu <a name="solutionmenu"></a></h3>
+<p>If a discretization is made, one can calculate a numerical solution. To do this, open the solution-menu and hit the <em>solve</em> button:</p>
+<img src="Manual_Images/AnalSolve0.png" alt="drawing" width="700">
+<p>Once a solution is calculated, new options appear in the solution-menu, as shown in the figure below:
+<img src="Manual_Images/AnalSolve1.png" alt="drawing" width="700"></p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Water table <a name="watertable"></a></h3>
+<p>Checking the “show H table” box shows the water table, that is the surface for which <span class="math inline-math"><script type="math/tex">H(x,z)=z</script></span> in the groundwater and the water level in the drain, as shown in the figure below:</p>
+<img src="Manual_Images/AnalSolve2.png" alt="drawing" width="700">
+<p>The maximum and minimum value of this table are stored in the table under the names <em>“H_min”</em> and <em>“H_max”</em> respectively.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>H fills <a name="hfills"></a></h3>
+<p>Checking this box fills the flow domain with colors representing the values of the <span class="math inline-math"><script type="math/tex">H</script></span>'s.
+A color bar with an axis (which can be dragged to any place in the window) gives the relation between values and colors.</p>
+<img src="Manual_Images/AnalSolve3.png" alt="drawing" width="700">
+<p>Both the top (global) view and the second (local) view are filled. The same colors are used but the relation between colors and values are chosen in such a way that only the values visible in the local view are used. A new color bar adjusted to this new relation is added, as shown in the figure below:</p>
+<img src="Manual_Images/AnalSolve4.png" alt="drawing" width="700">
+<p>The average values of these H values at the top and at the bottom are calculated and stored in  the table under the names <em>“Htop_mean”</em> and <em>“Hbottom_mean”</em> respectively.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Contours <a name="contours"></a></h3>
+<p>If the “fill cells with H” option in the menu is checked, an extra option “add contours” appears in the menu.
+When checked contour lines corresponding to the values of the color bar are added to the plot as shown in the figure below:</p>
+<img src="Manual_Images/AnalSolve5.png" alt="drawing" width="700">
+<p><a href="#top">(Back to top)</a></p>
+<h3>Flow direction <a name="flowdirection"></a></h3>
+<p>If the “draw flow direction” option in the solution menu is checked, arrows are drawn in the whole domain, both for global and local view, indicating the <strong>direction</strong> of flow. In this the flux size is neglected resulting in arrows all of the same length. If flux size is the point of interest, one should use the “draw fluxes” options (see <a href="#fluxes">section</a>).</p>
+<p>The following picture shows such an analysis:
+<img src="Manual_Images/Flowdirection.png" alt="drawing" width="700"></p>
+<p>As can be seen from absence of a thick line at the bottom, the example shows a case <strong>with</strong> a base layer. For <span class="math inline-math"><script type="math/tex">x>60</script></span> there is a net flow <strong>towards</strong> this base layer, for <span class="math inline-math"><script type="math/tex">x<60</script></span> there is a net flow from the base layer into the system.</p>
+<p>The flow directions plotted are the directions of the <strong>numerical approximation</strong> of the true flow directions. As in all approximations, errors do occur. In the figure below, errors of the flow directions on the vertical below the talud of the drain are clearly visible:
+<br>
+<img src="Manual_Images/NumericalFlowProblems.png" alt="drawing" width="400" height="400" style="box-shadow: 2px 2px 25px #888888 ;margin:0px 40px">
+<br>
+<br></p>
+<p>Numerical errors get smaller by choosing a finer grid of nodes (see <a href="#numericsettings">setion</a>) and the convergence criterium (see <a href="#nonmenu">section</a>).</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Fluxes <a name="fluxes"></a></h3>
+<p>Checking the “draw fluxes” option draw fluxes both in the top global and middle local view.
+The user has to select a factor to map the flux vectors (who have a different physical dimension: length/time as the pure length dimensions of the axes) onto the plot. The length of the arrows is proportional to the flux. All arrow head have the same head size.  When the “dont draw small arrows” box is checked (default), arrows whose length is invisible below the head are not drawn. When unchecked, fluxes are drawn in the total domain, even if they are invisible beneath  the arrowhead.
+Note that the <strong>same</strong> arrows are drawn in the top global and middle local view.</p>
+<img src="Manual_Images/AnalSolveFlux.gif" alt="drawing" width="700">
+<p>If one is only interested in the direction of the flux, and not its size, one should use the “draw flow directions” options as discucced in <a href="#flowdirection">section</a>.</p>
+<p>Numerical errors as discussed on flow directions (see <a href="#flowdirection">section</a>) do also occur here,
+and generally become more visible when large arrow factors are choosen.</p>
+<p>From these fluxes the total fluxes tot the drain and over the bottom are calculated and stored in the table under the names <em>“Q tot drain”</em> and <em>“Q tot base”</em> respectively.
+The total recharge is also calculated and stored in the table under the name <em>“Q tot recharge”</em>.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Node inspector <a name="nodeinspector"></a></h3>
+<p>The option “add node inspector” allows  the user to inspect the information assembled in a node.
+When checked, a yellow circle with a black line around it appears in both views. It can be dragged to any place in the domain. By dragging the pointer circle in one view, the circle in the other view will follow. Of course, by dragging the pointer in the global view to the far right can make the pointer in the middle local view invisible.
+When released after dragging, the pointer will automatically move to the nearest node.
+A small report of all information connected to that node appears, as can be seen in the following figure:
+<img src="Manual_Images/NodeInspector.gif" alt="drawing" width="700"></p>
+<p>That report can be dragged to any place in the window.
+It contains the following information:</p>
+<ul>
+<li>
+<p>position of the node</p>
+</li>
+<li>
+<p>value of <span class="math inline-math"><script type="math/tex">H</script></span></p>
+</li>
+<li>
+<p>fluxes from the eight neighboring nodes (as explained in the calculation section
+(see section on <a href="#solution">numerical solution</a> for definitions)</p>
+</li>
+<li>
+<p>external flux (non-zero values only possible on the boundaries)</p>
+</li>
+<li>
+<p>the “sum”: the remaining balance error in the node after solving</p>
+</li>
+</ul>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Cell analysis <a name="cellanalysis"></a></h3>
+<p>If the “add  analysis” box is checked, a section on the left of the domain is analyzed as if it was a cell of a numerical model (as e.g. MODFLOW).The width of this cell can be chosen by the new menu item that appears. The right border of this cell is plotted as a yellow line.
+The results of the analysis are shown in a small report (that can be dragged to any place in the window) as in the following figure:</p>
+<img src="Manual_Images/CellAnalysis1.png" alt="drawing" width="700">
+<p>This report contains the following information:</p>
+<ul>
+<li>
+<p><strong>Cell H_mean</strong>: the mean value of the top nodes in the cell</p>
+</li>
+<li>
+<p><strong>Q tot drain</strong>: the total flux to the drain</p>
+</li>
+<li>
+<p><strong>Cell Q recharge</strong>: that part of the recharge that falls on the cell</p>
+</li>
+<li>
+<p><strong>Cell Q lateral</strong>: the flux over the right border of the cell</p>
+</li>
+<li>
+<p><strong>c_fleak</strong>: calculated by:</p>
+</li>
+</ul>
+<span class="math display-math"><script type="math/tex; mode=display">c_{\textrm{fleak}} = \frac{H_\textrm{CellMean}-H_\textrm{DrainLevel}}{Q_\textrm{Totdrain}}\;\; W_\textrm{WidthCell}
+</script></span>
+<p>This value is chosen such that if one calculates the flux to the drain with a constant head <span class="math inline-math"><script type="math/tex">H_\textrm{CellMean}</script></span>
+and this resistance <span class="math inline-math"><script type="math/tex">c_\mathrm{fleak}</script></span> this would result in the modelled flux to the drain:</p>
+<span class="math display-math"><script type="math/tex; mode=display">Q_\textrm{Totdrain} = \frac{H_\textrm{CellMean}-H_\textrm{DrainLevel}}{c_{\textrm{fleak}}}\;\; W_\textrm{WidthCell}
+</script></span>
+<p>Note that the value of <strong>c_fleak</strong> is only representative for the <em>current parameter values</em>.
+If the relation between <span class="math inline-math"><script type="math/tex">Q_\mathrm{drain}</script></span> and <span class="math inline-math"><script type="math/tex">H_\mathrm{mean}-H_\mathrm{drain}</script></span> is very non-linear as in the figure above, the linear relation determined by only the current parameter values (red line) can be a poor approximation.
+<img src="Manual_Images/Cdefinitionproblem.png" alt="drawing" width="500"></p>
+<p>When the lower boundary is open the report is extended as in the following figure:</p>
+<img src="Manual_Images/CellAnalysis2.png" alt="drawing" width="700">
+<p>The extra value in this report is:</p>
+<ul>
+<li><strong>Cell Q base</strong>: the total flux over the lower boundary of the cell into the cell</li>
+</ul>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Wetted perimeter<a name="wettedperimeter"></a></h3>
+<p><em>iGrOw</em> calculates several perimeters. They can be found in the table.</p>
+<p>The geomtrical (dry) perimeter of the ditch was already introduced in the <a href="#calcgeo">geometry section</a> and is stored in the table under the name <em>“Ow Per”</em>, and is defined bye the following figure:</p>
+<img src="Manual_Images/iGrOwPerim0-1.png" alt="drawing" width="500">
+<p><br>
+The <em>open water wetted perimeter</em> is defined as that part of the perimeter that is in contact with the water in the ditch. It is stored in the table under the name <em>“Ow Wet Per”</em>. Moreover the width of the water table is calculated and stored in the table under the name <em>“Ow Wet Width”</em>. The following figure illustrates these concepts:</p>
+<img src="Manual_Images/iGrOwPerim1-1.png" alt="drawing" width="500">
+<p><br>
+The <em>groundwater wetted perimeter</em> is defined as that part of the perimeter that is in contact with the water groundwater. It is stored in the table under the name <em>“Gr Wet Per”</em>. The following figure illustrates this concept in the case of a seepage psease:</p>
+<img src="Manual_Images/iGrOwPerim2-1.png" alt="drawing" width="500">
+\
+<p>If there is no seepage phase or the open water is infiltrating the groundwater,
+the  <em>groundwater wetted perimeter</em> equals the  <em>open water wetted perimeter</em>  as illustrated by the following two figures:</p>
+<img src="Manual_Images/iGrOwPerim3-1.png" alt="drawing" width="500">
+<img src="Manual_Images/iGrOwPerim4-1.png" alt="drawing" width="500">
+<p><a href="#top">(Back to top)</a></p>
+<h2>Using the table  <a name="table"></a></h2>
+<h3>Overview of the variables stored in the table <a name="tableoverview"></a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">(click to go to) section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">iGrOw width (L/2)</td>
+<td style="text-align:left"><a href="#geosettings">geometrical input variables</a></td>
+</tr>
+<tr>
+<td style="text-align:left">domain height</td>
+<td style="text-align:left"><a href="#geosettings">geometrical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">drain width (B/2)</td>
+<td style="text-align:left"><a href="#geosettings">geometrical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">drain bottom</td>
+<td style="text-align:left"><a href="#geosettings">geometrical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">talud angle</td>
+<td style="text-align:left"><a href="#geosettings">geometrical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">drain level</td>
+<td style="text-align:left"><a href="#hydrovarsmenu">hydrological input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">recharge *1000</td>
+<td style="text-align:left"><a href="#hydrovarsmenu">hydrological input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">kxx</td>
+<td style="text-align:left"><a href="#hydrovarsmenu">hydrological input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">kxz</td>
+<td style="text-align:left"><a href="#hydrovarsmenu">hydrological input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">kzz</td>
+<td style="text-align:left"><a href="#hydrovarsmenu">hydrological input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">c drain</td>
+<td style="text-align:left"><a href="#drainresistance">hydrological input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">c seepage</td>
+<td style="text-align:left"><a href="#drainresistance">hydrological input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">c base</td>
+<td style="text-align:left"><a href="#hydrovarsmenu">hydrological input variable</a>,<a href="#addbaselayer">geometrical input</a></td>
+</tr>
+<tr>
+<td style="text-align:left">H base</td>
+<td style="text-align:left"><a href="#hydrovarsmenu">hydrological input variable</a>,<a href="#addbaselayer">geometrical input</a></td>
+</tr>
+<tr>
+<td style="text-align:left"># hor under drain</td>
+<td style="text-align:left"><a href="#nodesandcells">numerical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left"># hor right of drain</td>
+<td style="text-align:left"><a href="#nodesandcells">numerical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left"># ver</td>
+<td style="text-align:left"><a href="#nodesandcells">numerical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">densification hor</td>
+<td style="text-align:left"><a href="#nodesandcells">numerical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">densification ver</td>
+<td style="text-align:left"><a href="#nodesandcells">numerical input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">iGrOw land  width</td>
+<td style="text-align:left"><a href="#calcgeo">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">H_min</td>
+<td style="text-align:left"><a href="#watertable">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">H_max</td>
+<td style="text-align:left"><a href="#watertable">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Htop_mean</td>
+<td style="text-align:left"><a href="#hfills">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Hbottom_mean</td>
+<td style="text-align:left"><a href="#hfills">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Gr Wet Per</td>
+<td style="text-align:left"><a href="#wettedperimeter">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Ow Wet Per</td>
+<td style="text-align:left"><a href="#wettedperimeter">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Ow Per</td>
+<td style="text-align:left"><a href="#wettedperimeter">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Ow Wet Width</td>
+<td style="text-align:left"><a href="#wettedperimeter">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Q tot drain</td>
+<td style="text-align:left"><a href="#fluxes">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Q tot recharge</td>
+<td style="text-align:left"><a href="#fluxes">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Q tot base</td>
+<td style="text-align:left"><a href="#fluxes">hydrological output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Cell width</td>
+<td style="text-align:left"><a href="#cellanlysis">analysis input variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Cell H_mean</td>
+<td style="text-align:left"><a href="#cellanlysis">analysis output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Cell Q recharge</td>
+<td style="text-align:left"><a href="#cellanlysis">analysis output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Cell Q lateral</td>
+<td style="text-align:left"><a href="#cellanlysis">analysis output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Cell c_fleak</td>
+<td style="text-align:left"><a href="#cellanlysis">analysis output variable</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Cell Q base</td>
+<td style="text-align:left"><a href="#cellanlysis">analysis output variable</a></td>
+</tr>
+</tbody>
+</table>
+<h3>Active table storage <a name="activestorage"></a></h3>
+<p>The lowest part of the window shows a table-view in terms of numbers of the model under consideration. Both input numbers and result numbers are stored in this table. Any change in these numbers of the current model is immediately stored in the topline of the table, called the “active storage” as shown in the following figure:</p>
+<img src="Manual_Images/TableActive.gif" alt="drawing" width="800">
+<p>The table is (usually) much wider  than the browser window. One should use the horizontal scroll bar to view all the variables. Name of the variables are as introduced above, input variables have the same name as in the menus. Variables that do not receive a value in the current model (e.g. because there is no base layer or no cell analysis is done) get the value “NaN” (not a number).</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Archiving in the tabel <a name="archiving"></a></h3>
+<p>Often one wants to compare to (or more) model runs.
+For this the table can be used. By clicking on the active row, the user has the option to archive the active row. If the user accepts this, the now active row is copied in another part of the table called “archive”. Changing the model parameters and rerun the model results in another active row. The results of this active row can then be compared to the archived one.</p>
+<p>The following figure illustrates this:
+<img src="Manual_Images/TableArchive.gif" alt="drawing" width="800"></p>
+<p>In this example the first model used values <span class="math inline-math"><script type="math/tex">k_{xx}=k_{zz} =2</script></span>. The results of this model were archived.  Changing the values <span class="math inline-math"><script type="math/tex">k_{xx}=k_{zz} =5</script></span>, rerunning the model an comparing the active row to the archived row shows that the maximum ground water level went down form 9.789 to 9.619.</p>
+<p><a href="#top">(Back to top)</a></p>
+<h3>Activating archived row <a name="activating"></a></h3>
+<p>Changing model parameters, running the model, archiving the results end in general in a table with several rows. One can of course compare the output numbers of the different results as stored in the table. But it may also be the case that one wants to review the plots corresponding to an archived row.
+This can be done by clicking on an archived row. The user has then the option to accept that this archived row becomes active, including all the graphical plots.</p>
+<p>The following figure illustrates this:</p>
+<img src="Manual_Images/ActivateRow.gif" alt="drawing" width="800">
+<p><a href="#top">(Back to top)</a></p>
+<h3>Download table to CSV <a name="downloadtable"></a></h3>
+<p>After collecting a lot of runs in the table archive, one may wish to continue the analysis outside <em>iGrOw.html</em>, for instance in a spreadsheet. For this, one can hit the button “Download table to csv”.
+A csv file containing all the rows and columns of the table will then be saved on your computer.
+Most browsers will save this (for security reasons) only in the local <em>Downloads</em> folder. Some browsers allow to change the name of that file, some give a default name.</p>
+<p>The figure below shows such a download on a Chromium browser. The default name is then “data.csv” and it appears in lower part of the browser. This file can be downloaded and analyzed in any spreadsheet.</p>
+<img src="Manual_Images/DownloadCSV.gif" alt="drawing" width="800">
+<p><a href="#top">(Back to top)</a></p>
+<h3>Running cases/uploading from CSV <a name="uploadtable"></a></h3>
+<p>The manual discussed until now how models could be made interactively (through menus) and stored in tables. To run many cases, the interactive approach may be too cumbersome.</p>
+<p>For that reasons, <em>iGrOw</em> allows also to define all these cases in a csv file and upload it in _iGrOw.
+<em>iGrOW</em> will run all these cases and store them in a table.</p>
+<p>For this procedure, one should first make a csv file with all input variables as column names and where the rows correspond to the cases.</p>
+<p>Remember: column names are identical to those used in the menus:
+“iGrOw width (L/2)”, “domain height”, “drain width (B/2)”, “drain bottom”, “talud angle”, “drain level”, “recharge *1000” , “kxx”, “kzz” ,“kxz”, “c drain”, “c seepage”, “c base”, “H base”,“# hor under drain”, “#hor right of drain”, “# ver”, “densification hor”, “densification ver”, “Cell width”</p>
+<p>To help the user in this, a spreadsheet template for a spreadsheet file by which such a csv file can be make and an example are provided in the distribution.</p>
+<p>The following figure shows the “_iGrOwInputTemplate.xlsx”:</p>
+<img src="Manual_Images/iGrOwInputTemplate.png" alt="drawing" width="800">
+<p>The following figure shows the “_iGrOwInputExample.xlsx” made by this template:</p>
+<img src="Manual_Images/iGrOwInputExamplea.png" alt="drawing" width="800">
+<p>the same file, but now scrolled to columns more to the right:</p>
+<img src="Manual_Images/iGrOwInputExampleb.png" alt="drawing" width="700">
+<p>In this laste figure the use of “NaN” signal options one does not want to use:</p>
+<ul>
+<li>in the first model (row 2) and the last model (row 4) the NaN values for c_base and H_base indicate that in these model no base layer will be used</li>
+<li>the NaN’s in the “Cell width” column make that for the first and second model (row 2 and row 3)  no <a href="#cellanalysis">cell analysis</a> will be performed, the value of 10 in will make that a cell analysis for the third model will be calculated, with this value as cell width.</li>
+</ul>
+<p>Such a spreadsheet can be save as a csv file and uploaded into <em>iGrOw</em> as in the following illustration:</p>
+<img src="Manual_Images/Upload.gif" alt="drawing" width="800">
+<p><a href="#top">(Back to top)</a></p>
+<h2>Non-menu settings  <a name="nonmenu"></a></h2>
+<p>The sections above discussed values of variables that can be interactively set through the menu options.</p>
+<p>The “iGrOw.html” uses some other values that can be changed if wanted. The are collected in a javascript file (which can be opened and edited by any editor) called “iGrOwdefaultsettings.js” that can be found the “script folder”. The following image shows this file as provided in the zip-version:</p>
+<p><img src="images/defaultsettings.png" alt=""></p>
+<p>The first three objects provide the default values by which “iGrOw.html” opens. The fourth collects numbers that are used in the solution procedure:</p>
+<ul>
+<li>
+<p>omega: classical relaxation factor used in the iterative solution of the equations. Larger numbers can result in a faster solution, but can also result in non-convergence.</p>
+</li>
+<li>
+<p>theta: relaxation factor used in the part of the solution that handles the base flow. Larger numbers can result in a faster solution, but can also result in non-convergence.</p>
+</li>
+<li>
+<p>maxiter1: maximum number iterations in the solutions of the main part of the equations</p>
+</li>
+<li>
+<p>maxiter2: maximum number iterations in the solutions of base part of the equations</p>
+</li>
+<li>
+<p>maxHchange: stop criterion for heads: if changes in H-values are smaller than this number, the iteration in the main solution procedure stops</p>
+</li>
+<li>
+<p>maxQchange: stop criterion for fluxes: if changes in Q-values of the base values are smaller than this number, the iteration in the solution procedure that handles the base fluxes stops</p>
+</li>
+</ul>
+<p>Any of these numbers can be changed. If an altered file is saved in the script folder, it will be used the next time the “iGrOw.html” is opened in a browser.</p>
+<p><a href="#top">(Back to top)</a></p>
+
+  </body>
+</html>

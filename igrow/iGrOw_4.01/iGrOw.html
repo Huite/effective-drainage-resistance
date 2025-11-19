@@ -1,0 +1,1287 @@
+<html>
+  <head>
+    <title>iGrOw_3.6c</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+        max-height: 200px;
+        overflow: scroll;
+        font: normal 8px Verdana, Arial, sans-serif;
+      }
+
+      .button {
+        border: 2px solid;
+        border-radius: 4px;
+        color: black;
+        padding: 10px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        background-color: #d3d3d3;
+        font-size: 16px;
+        margin: 3px 2px;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background: #ccc;
+      }
+
+      .button:active {
+        background: #ccf;
+      }
+
+      label.myLabel input[type="file"] {
+        position: absolute;
+        top: -1000px;
+      }
+
+      .myLabel {
+        border: 2px solid;
+        border-radius: 4px;
+        padding: 10px 10px;
+        margin: 3px 2px;
+        background: #ddd;
+        display: inline-block;
+        font-size: 16px;
+      }
+
+      .myLabel:hover {
+        background: #ccc;
+      }
+
+      .myLabel:active {
+        background: #ccf;
+      }
+
+      .report {
+        position: absolute;
+        z-index: 9;
+        background-color: #dab32b;
+        text-align: center;
+        border-radius: 10px;
+        /* padding: 5px; */
+        border: 5px solid #ef0707;
+        font: normal 16px Verdana, Arial, sans-serif;
+        top: 110px;
+        left: 110px;
+      }
+    </style>
+    <link href="./iGrOw_scripts/tabulator_simple.min.css" rel="stylesheet" />
+  </head>
+  <script src="./iGrOw_scripts/konva.min.js"></script>
+  <script src="./iGrOw_scripts/quicksettings.min.js"></script>
+  <script src="./iGrOw_scripts/waitforenterkey.js"></script>
+  <script src="./iGrOw_scripts/Axis.js"></script>
+  <script src="./iGrOw_scripts/tabulator.min.js"></script>
+  <script src="./iGrOw_scripts/FileSaver.min.js"></script>
+  <script src="./iGrOw_scripts/iGrOwdefaultsettings.js"></script>
+  <script src="./iGrOw_scripts/iGrOwnetgen.js"></script>
+  <script src="./iGrOw_scripts/iGrOwdrain.js"></script>
+  <script src="./iGrOw_scripts/iGrOwmath.js"></script>
+  <script src="./iGrOw_scripts/iGrOwcontroles.js"></script>
+  <script src="./iGrOw_scripts/iGrOwmenu.js"></script>
+  <script src="./iGrOw_scripts/iGrOwtable.js"></script>
+  <script src="./iGrOw_scripts/iGrOwplothelpers.js"></script>
+  <script src="./iGrOw_scripts/iGrOwColorBar.js"></script>
+  <script src="./iGrOw_scripts/iGrOwiFrame.js"></script>
+  <script src="./iGrOw_scripts/iGrOwdump.js"></script>
+  <script src="./iGrOw_scripts/delaunator.min.js"></script>
+  <!-- <meta charset="utf-8" /> -->
+
+  <body>
+    <div id="container1"></div>
+    <div id="container2"></div>
+    <p>
+      <button class="button" id="cleararchive">Clear archive</button>
+      <button class="button" id="downloadcsv">Download table to CSV</button>
+      <label class="myLabel">
+        <input type="file" onchange="readcsvFile(this)" />
+        <span>Upload CSV to table</span>
+      </label>
+      <button class="button" id="jsondump">Dump all to json-file</button>
+    </p>
+
+    <div id="reporttable"></div>
+    <p style="background-color: grey; font-size: 10px">
+      P.J.J.F. Torfs me fecit 2022
+    </p>
+    <div id="nodereport" class="report">
+      <iframe
+        id="nodeiframe"
+        width="310"
+        height="200"
+        title="This is an iframe"
+        style="border: 1px solid red; background: #e6eded"
+      >
+      </iframe>
+      <p style="font-size: 12px">Node inspector drag handle.</p>
+    </div>
+    <div id="cellreport" class="report">
+      <iframe
+        id="celliframe"
+        width="310"
+        height="105"
+        title="This is an iframe"
+        style="border: 1px solid red; background: #e6eded"
+      >
+      </iframe>
+      <p style="font-size: 12px">Cell analysis drag handle.</p>
+    </div>
+    <script>
+      startuptable();
+
+      document
+        .getElementById("cleararchive")
+        .addEventListener("click", function () {
+          let Ndel = tabledata.length - 1;
+          for (let i = 0; i < Ndel; i++) {
+            tabledata.pop();
+          }
+        });
+
+      document
+        .getElementById("downloadcsv")
+        .addEventListener("click", function () {
+          table.download("csv", "iGrOwdata.csv");
+        });
+
+      document
+        .getElementById("jsondump")
+        .addEventListener("click", function () {
+          jsondump();
+        });
+
+      function calcmodel() {
+        setdrain();
+        constructXYdomain();
+        generatenetwork();
+        // makenodes();
+        // maketriangles();
+        resetnodestotop();
+        fdosolve();
+        calcsolutionstats();
+      }
+
+      function runmodel() {
+        setdrain();
+
+        constructXYwater();
+        constructXYdomain();
+        // repicgeo1();
+        // repicgeo2();
+        // resetstage1horaxis();
+        ground1.setAttr("points", []);
+        xy2s1xy(XYdomain, ground1.getAttr("points"));
+        ground2.setAttr("points", []);
+        xy2s2xy(XYdomain, ground2.getAttr("points"));
+        generatenetwork();
+        makenodes();
+        maketriangles();
+
+        resetnodestotop();
+        fdosolve();
+        calcsolutionstats();
+        numericmenu.showControl("show nodes");
+        numericmenu.showControl("show cells");
+        numericmenu.hideControl("make discretization");
+        discretization.done = true;
+        solutionmenu.hideControl("warning");
+
+        if (!isNaN(geo.CELLwidth)) {
+          makeCELL();
+          toplayer1.add(CELLdivide1);
+          toplayer1.add(CELLHmean1);
+          cellparent.style.display = "block";
+          toplayer2.add(CELLdivide2);
+          toplayer2.add(CELLHmean2);
+        }
+        fullgeoredraw();
+        fullresultsredraw();
+      }
+
+      let nodeiframe = document.getElementById("nodeiframe");
+      let nodeparent = document.getElementById("nodereport");
+      nodeparent.style.display = "none";
+      dragElement(nodeparent);
+
+      let celliframe = document.getElementById("celliframe");
+      let cellparent = document.getElementById("cellreport");
+      cellparent.style.display = "none";
+      dragElement(cellparent);
+
+      var StageWidth = window.innerWidth - 75;
+      var StageHeight = window.innerHeight * 0.75;
+
+      setupmenu();
+      setmenudefaultchoices();
+      //
+      // the drawing
+      //
+
+      //
+      // the two stages
+      //
+      var stage1 = new Konva.Stage({
+        container: "container1",
+        width: StageWidth,
+        height: StageHeight,
+      });
+
+      function x2s1x(x) {
+        return 30 + (x / geo.domainwidth) * (stage1.getWidth() - 40);
+      }
+
+      function s1x2x(s1x) {
+        return ((s1x - 30) * geo.domainwidth) / (stage1.getWidth() - 40);
+      }
+
+      function y2s1y(y) {
+        return 30 + (1 - y / geo.domainheight) * (stage1.getHeight() - 40);
+      }
+
+      function s1y2y(s1y) {
+        return geo.domainheight * (1 - (s1y - 30) / (stage1.getHeight() - 40));
+      }
+
+      function xy2s1xy(xy, s1xy) {
+        for (var i = 0; i < xy.length; i += 2) {
+          s1xy[i] = x2s1x(xy[i]);
+          s1xy[i + 1] = y2s1y(xy[i + 1]);
+        }
+      }
+
+      var stage2 = new Konva.Stage({
+        container: "container2",
+        width: StageWidth,
+        height: StageHeight,
+      });
+
+      function x2s2x(x) {
+        return 30 + (x / (2 * geo.drainwidth)) * (stage2.getWidth() - 40);
+      }
+
+      function s2x2x(s2x) {
+        return ((s2x - 30) * (2 * geo.drainwidth)) / (stage2.getWidth() - 40);
+      }
+
+      function y2s2y(y) {
+        return 30 + (1 - y / geo.domainheight) * (stage2.getHeight() - 40);
+      }
+
+      function s2y2y(s2y) {
+        return geo.domainheight * (1 - (s2y - 30) / (stage2.getHeight() - 40));
+      }
+
+      function xy2s2xy(xy, s2xy) {
+        for (var i = 0; i < xy.length; i += 2) {
+          s2xy[i] = x2s2x(xy[i]);
+          s2xy[i + 1] = y2s2y(xy[i + 1]);
+        }
+      }
+
+      //
+      // the domain
+      //
+
+      var XYdomain = [];
+
+      constructXYdomain();
+
+      var XYwater = [];
+
+      constructXYwater();
+
+      //
+      // the layers
+      //
+
+      var backgroundlayer1 = new Konva.Layer();
+      var geolayer1 = new Konva.Layer();
+      var sollayer1 = new Konva.Layer();
+      var fluxlayer1 = new Konva.Layer();
+      var numlayer1 = new Konva.Layer();
+      var toplayer1 = new Konva.Layer();
+
+      var backgroundlayer2 = new Konva.Layer();
+      var geolayer2 = new Konva.Layer();
+      var sollayer2 = new Konva.Layer();
+      var fluxlayer2 = new Konva.Layer();
+      var numlayer2 = new Konva.Layer();
+      var toplayer2 = new Konva.Layer();
+
+      var background1 = new Konva.Rect({
+        x: 1,
+        y: 1,
+        width: stage1.getWidth() - 1,
+        height: stage1.getHeight() - 1,
+        stroke: "black",
+        strokeWidth: 1,
+      });
+
+      backgroundlayer1.add(background1);
+
+      var background2 = new Konva.Rect({
+        x: 1,
+        y: 1,
+        width: stage2.getWidth() - 1,
+        height: stage2.getHeight() - 1,
+        stroke: "black",
+        strokeWidth: 1,
+      });
+      backgroundlayer2.add(background2);
+
+      var water1 = new Konva.Line({
+        points: [],
+        fill: "#2196f3",
+        stroke: "blue",
+        strokeWidth: 1,
+        closed: true,
+      });
+      xy2s1xy(XYwater, water1.getAttr("points"));
+
+      var water2 = new Konva.Line({
+        points: [],
+        fill: "#2196f3",
+        stroke: "blue",
+        strokeWidth: 1,
+        closed: true,
+      });
+      xy2s2xy(XYwater, water2.getAttr("points"));
+
+      backgroundlayer1.add(water1);
+      backgroundlayer2.add(water2);
+
+      var ground1 = new Konva.Line({
+        points: [],
+        fill: "#e39b51",
+        stroke: "black",
+        strokeWidth: 1,
+        closed: true,
+      });
+      xy2s1xy(XYdomain, ground1.getAttr("points"));
+
+      var leftborder1 = new Konva.Line({
+        points: [x2s1x(0), y2s1y(0), x2s1x(0), y2s1y(geo.drainbottom)],
+        stroke: "black",
+        strokeWidth: 10,
+      });
+      geolayer1.add(leftborder1);
+
+      var rightborder1 = new Konva.Line({
+        points: [
+          x2s1x(geo.domainwidth),
+          y2s1y(0),
+          x2s1x(geo.domainwidth),
+          y2s1y(geo.domainheight),
+        ],
+        stroke: "black",
+        strokeWidth: 10,
+      });
+      geolayer1.add(rightborder1);
+
+      var leftborder2 = new Konva.Line({
+        points: [x2s2x(0), y2s2y(0), x2s2x(0), y2s2y(geo.drainbottom)],
+        stroke: "black",
+        strokeWidth: 10,
+      });
+      geolayer2.add(leftborder2);
+
+      var bottomborder1 = new Konva.Line({
+        points: [x2s1x(0), y2s1y(0), x2s1x(geo.domainwidth), y2s1y(0)],
+        stroke: "black",
+        strokeWidth: 10,
+      });
+      geolayer1.add(bottomborder1);
+
+      var bottomborder2 = new Konva.Line({
+        points: [x2s2x(0), y2s2y(0), x2s2x(geo.domainwidth), y2s2y(0)],
+        stroke: "black",
+        strokeWidth: 10,
+      });
+      geolayer2.add(bottomborder2);
+
+      var ground2 = new Konva.Line({
+        points: [],
+        fill: "#e39b51",
+        stroke: "black",
+        strokeWidth: 1,
+        closed: true,
+      });
+      xy2s2xy(XYdomain, ground2.getAttr("points"));
+
+      geolayer1.add(ground1);
+      geolayer2.add(ground2);
+
+      function repicgeo1() {
+        ground1.setAttr("points", []);
+        xy2s1xy(XYdomain, ground1.getAttr("points"));
+        water1.setAttr("points", []);
+        xy2s1xy(XYwater, water1.getAttr("points"));
+        Htable1.setAttr("points", []);
+        xy2s2xy(topparam.grwXY, Htable1.getAttr("points"));
+        leftborder1.setPoints([
+          x2s1x(0),
+          y2s1y(0),
+          x2s1x(0),
+          y2s1y(geo.drainbottom),
+        ]);
+        rightborder1.setPoints([
+          x2s1x(geo.domainwidth),
+          y2s1y(0),
+          x2s1x(geo.domainwidth),
+          y2s1y(geo.domainheight),
+        ]);
+        bottomborder1.setPoints([
+          x2s1x(0),
+          y2s1y(0),
+          x2s1x(geo.domainwidth),
+          y2s1y(0),
+        ]);
+      }
+
+      function repicgeo2() {
+        ground2.setAttr("points", []);
+        xy2s2xy(XYdomain, ground2.getAttr("points"));
+        water2.setAttr("points", []);
+        xy2s2xy(XYwater, water2.getAttr("points"));
+        Htable2.setAttr("points", []);
+        xy2s2xy(topparam.grwXY, Htable2.getAttr("points"));
+        leftborder2.setPoints([
+          x2s2x(0),
+          y2s2y(0),
+          x2s2x(0),
+          y2s2y(geo.drainbottom),
+        ]);
+        bottomborder2.setPoints([
+          x2s2x(0),
+          y2s2y(0),
+          x2s2x(geo.domainwidth),
+          y2s2y(0),
+        ]);
+      }
+
+      //
+      // the nodes
+      //
+
+      var nodes1 = new Konva.Group({
+        draggable: false,
+      });
+      var nodes2 = new Konva.Group({
+        draggable: false,
+      });
+
+      function makenodes() {
+        nodes1.destroyChildren();
+        nodes2.destroyChildren();
+        for (var i = 0; i < discretization.nodes.length; i += 2) {
+          var newnode = new Konva.Circle({
+            x: x2s1x(discretization.nodes[i]),
+            y: y2s1y(discretization.nodes[i + 1]),
+            radius: 4,
+            fill: "white",
+            stroke: "reactiveData",
+            strokeWidth: 1,
+          });
+          nodes1.add(newnode);
+          var newnode = new Konva.Circle({
+            x: x2s2x(discretization.nodes[i]),
+            y: y2s2y(discretization.nodes[i + 1]),
+            radius: 4,
+            fill: "white",
+            stroke: "reactiveData",
+            strokeWidth: 1,
+          });
+          nodes2.add(newnode);
+        }
+      }
+
+      function makenodes2() {
+        nodes2.destroyChildren();
+        for (var i = 0; i < discretization.nodes.length; i += 2) {
+          var newnode = new Konva.Circle({
+            x: x2s2x(discretization.nodes[i]),
+            y: y2s2y(discretization.nodes[i + 1]),
+            radius: 4,
+            fill: "white",
+            stroke: "reactiveData",
+            strokeWidth: 1,
+          });
+          nodes2.add(newnode);
+        }
+      }
+
+      // the cells
+
+      var cells1 = new Konva.Group({
+        draggable: false,
+      });
+
+      var cells2 = new Konva.Group({
+        draggable: false,
+      });
+
+      function maketriangles() {
+        cells1.destroyChildren();
+        cells2.destroyChildren();
+        for (let it = 0; it < discretization.elements.length; it++) {
+          let el = discretization.elements[it];
+          var Ax = discretization.nodes[2 * el[0]];
+          var Ay = discretization.nodes[2 * el[0] + 1];
+          var Bx = discretization.nodes[2 * el[1]];
+          var By = discretization.nodes[2 * el[1] + 1];
+          var Cx = discretization.nodes[2 * el[2]];
+          var Cy = discretization.nodes[2 * el[2] + 1];
+          var newcell1 = new Konva.Line({
+            points: [
+              x2s1x(Ax),
+              y2s1y(Ay),
+              x2s1x(Bx),
+              y2s1y(By),
+              x2s1x(Cx),
+              y2s1y(Cy),
+            ],
+            stroke: "red",
+            strokeWidth: 1,
+            closed: true,
+          });
+          cells1.add(newcell1);
+          var newcell2 = new Konva.Line({
+            points: [
+              x2s2x(Ax),
+              y2s2y(Ay),
+              x2s2x(Bx),
+              y2s2y(By),
+              x2s2x(Cx),
+              y2s2y(Cy),
+            ],
+            stroke: "red",
+            strokeWidth: 1,
+            closed: true,
+          });
+          cells2.add(newcell2);
+        }
+      }
+
+      function maketriangles2() {
+        cells2.destroyChildren();
+        for (let it = 0; it < discretization.elements.length; it++) {
+          let el = discretization.elements[it];
+          var Ax = discretization.nodes[2 * el[0]];
+          var Ay = discretization.nodes[2 * el[0] + 1];
+          var Bx = discretization.nodes[2 * el[1]];
+          var By = discretization.nodes[2 * el[1] + 1];
+          var Cx = discretization.nodes[2 * el[2]];
+          var Cy = discretization.nodes[2 * el[2] + 1];
+          var newcell2 = new Konva.Line({
+            points: [
+              x2s2x(Ax),
+              y2s2y(Ay),
+              x2s2x(Bx),
+              y2s2y(By),
+              x2s2x(Cx),
+              y2s2y(Cy),
+            ],
+            stroke: "red",
+            strokeWidth: 1,
+            closed: true,
+          });
+          cells2.add(newcell2);
+        }
+      }
+
+      // Htable
+
+      var Htable1 = new Konva.Line({
+        points: [],
+        stroke: "rgba(134, 83, 209, 0.88)",
+        strokeWidth: 3,
+        lineCap: "round",
+        lineJoin: "round",
+        dash: [4, 4],
+      });
+
+      var Htable2 = new Konva.Line({
+        points: [],
+        stroke: "rgba(134, 83, 209, 0.88)",
+        strokeWidth: 3,
+        lineCap: "round",
+        lineJoin: "round",
+        dash: [4, 4],
+      });
+
+      //
+      // Hfill
+      //
+
+      let Hfill1Info = {
+        Hmin: 0,
+        Hrange: 1,
+        tickvalues: [],
+        scaledtickvalues: [],
+      };
+
+      let Hfill1legend = new ColorBarLegend({
+        X: 50,
+        Y: 50,
+        barheight: 400,
+      });
+
+      function makeHtable12() {
+        let newxy1 = [];
+        let newxy2 = [];
+        for (
+          let i = discretization.ileftdrain;
+          i <= discretization.igrwright;
+          i++
+        ) {
+          newxy1.push(x2s1x(discretization.nodes[2 * i]));
+          newxy1.push(y2s1y(state.H[i]));
+          newxy2.push(x2s2x(discretization.nodes[2 * i]));
+          newxy2.push(y2s2y(state.H[i]));
+        }
+        Htable1.setPoints(newxy1);
+        Htable2.setPoints(newxy2);
+      }
+
+      let Hfill1 = new Konva.Shape({
+        stroke: null,
+        fill: null,
+        strokeWidth: 0,
+        sceneFunc: function (ctx, shape) {
+          if (state.H.length > 0) {
+            var contourvalues = Hfill1Info.tickvalues;
+            for (var i = 0; i < discretization.elements.length; i++) {
+              var tr = discretization.elements[i];
+              var inode = tr[0];
+              var p0 = [
+                x2s1x(discretization.nodes[2 * inode]),
+                y2s1y(discretization.nodes[2 * inode + 1]),
+              ];
+              var H0 = (state.H[inode] - Hfill1Info.Hmin) / Hfill1Info.Hrange;
+              inode = tr[1];
+              var p1 = [
+                x2s1x(discretization.nodes[2 * inode]),
+                y2s1y(discretization.nodes[2 * inode + 1]),
+              ];
+              var H1 = (state.H[inode] - Hfill1Info.Hmin) / Hfill1Info.Hrange;
+              inode = tr[2];
+              var p2 = [
+                x2s1x(discretization.nodes[2 * inode]),
+                y2s1y(discretization.nodes[2 * inode + 1]),
+              ];
+              var H2 = (state.H[inode] - Hfill1Info.Hmin) / Hfill1Info.Hrange;
+
+              filltriangle(
+                p0,
+                p1,
+                p2,
+                H0,
+                H1,
+                H2,
+                Hfill1Info.scaledtickvalues,
+                ctx
+              );
+            }
+            ctx.fillStrokeShape(shape);
+          }
+        },
+      });
+
+      function makeHfill1() {
+        Hfill1Info.Hmin = state.minH;
+        Hfill1Info.Hrange = (state.maxH - state.minH) * 1.0001;
+        Hfill1Info.tickvalues = calcticks(state.minH, state.maxH, 10);
+        Hfill1Info.scaledtickvalues = [];
+        if (menuchoice.showcontourvalues) {
+          for (let i = 0; i < Hfill1Info.tickvalues.length; i++) {
+            Hfill1Info.scaledtickvalues.push(
+              (Hfill1Info.tickvalues[i] - Hfill1Info.Hmin) / Hfill1Info.Hrange
+            );
+          }
+        }
+
+        Hfill1legend.setvalues({
+          minvalue: state.minH,
+          maxvalue: state.maxH,
+          tickvalues: Hfill1Info.tickvalues,
+        });
+      }
+
+      let Hfill2Info = {
+        Hmin: 0,
+        Hrange: 1,
+        tickvalues: [],
+        scaledtickvalues: [],
+        trinimage: [],
+      };
+
+      let Hfill2legend = new ColorBarLegend({
+        X: 150,
+        Y: 150,
+        barheight: 400,
+      });
+
+      let Hfill2 = new Konva.Shape({
+        stroke: null,
+        fill: null,
+        strokeWidth: 0,
+        sceneFunc: function (ctx, shape) {
+          if (state.H.length > 0) {
+            var contourvalues = Hfill2Info.tickvalues;
+            for (var k = 0; k < Hfill2Info.trinimage.length; k++) {
+              var tr = discretization.elements[Hfill2Info.trinimage[k]];
+              if (tr.includes(undefined) || tr.includes(NaN)) {
+                console.log("#1", tr);
+              }
+              var inode = tr[0];
+              var p0 = [
+                x2s2x(discretization.nodes[2 * inode]),
+                y2s2y(discretization.nodes[2 * inode + 1]),
+              ];
+              var H0 = (state.H[inode] - Hfill2Info.Hmin) / Hfill2Info.Hrange;
+              inode = tr[1];
+              var p1 = [
+                x2s2x(discretization.nodes[2 * inode]),
+                y2s2y(discretization.nodes[2 * inode + 1]),
+              ];
+              var H1 = (state.H[inode] - Hfill2Info.Hmin) / Hfill2Info.Hrange;
+              inode = tr[2];
+              var p2 = [
+                x2s2x(discretization.nodes[2 * inode]),
+                y2s2y(discretization.nodes[2 * inode + 1]),
+              ];
+              var H2 = (state.H[inode] - Hfill2Info.Hmin) / Hfill2Info.Hrange;
+
+              filltriangle(
+                p0,
+                p1,
+                p2,
+                H0,
+                H1,
+                H2,
+                Hfill2Info.scaledtickvalues,
+                ctx
+              );
+            }
+            ctx.fillStrokeShape(shape);
+          }
+        },
+      });
+
+      function makeHfill2() {
+        Hfill2Info.trinimage = [];
+        var minH = Infinity;
+        var maxH = -Infinity;
+        for (var i = 0; i < discretization.elements.length; i++) {
+          var inimage = false;
+          var tr = discretization.elements[i];
+          for (var k = 0; k < 3; k++) {
+            var inode = tr[k];
+            var x = x2s2x(discretization.nodes[2 * inode]);
+            var y = y2s2y(discretization.nodes[2 * inode + 1]);
+            if (x < stage2.getWidth()) {
+              if (y < stage2.getHeight()) {
+                if (!inimage) {
+                  Hfill2Info.trinimage.push(i);
+                  inimage = true;
+                }
+                if (state.H[inode] < minH) {
+                  minH = state.H[inode];
+                } else if (state.H[inode] > maxH) {
+                  maxH = state.H[inode];
+                }
+              }
+            }
+          }
+        }
+        Hfill2Info.Hmin = minH;
+        Hfill2Info.Hrange = maxH - minH;
+        Hfill2Info.tickvalues = calcticks(minH, maxH, 10);
+        Hfill2Info.scaledtickvalues = [];
+        if (menuchoice.showcontourvalues) {
+          for (let i = 0; i < Hfill2Info.tickvalues.length; i++) {
+            Hfill2Info.scaledtickvalues.push(
+              (Hfill2Info.tickvalues[i] - Hfill2Info.Hmin) / Hfill2Info.Hrange
+            );
+          }
+        }
+
+        Hfill2legend.setvalues({
+          minvalue: minH,
+          maxvalue: maxH,
+          barheight: 400,
+          tickvalues: Hfill2Info.tickvalues,
+        });
+      }
+
+      //
+      // arrows
+      //
+
+      const flowdirsize = 25;
+
+      var arrows1 = null;
+
+      function makearrows1() {
+        if (arrows1 !== null) {
+          arrows1.destroy();
+        }
+        arrows1 = new Konva.Shape({
+          fill: "rgb(35, 252, 0)",
+          strokeWidth: 0.6,
+          stroke: "black",
+          sceneFunc: function (ctx, shape) {
+            var cutsmall;
+            if (menuchoice.arrowsareflow) {
+              cutsmall = false;
+            } else {
+              cutsmall = menuchoice.cutsmallarrows;
+            }
+            var flength = Math.exp(2 * menuchoice.arrowfactor);
+            if (!(state.H == null)) {
+              var f = 1.0 / stage1.scaleX();
+              var arrowhead = [0, 0, -12 * f, 0, -12 * f, 3 * f];
+              ctx.strokeWidth = f;
+              ctx.beginPath();
+              for (const tr of discretization.elements) {
+                var inode;
+                inode = tr[0];
+                var Ax = discretization.nodes[2 * inode];
+                var Az = discretization.nodes[2 * inode + 1];
+                var HA = state.H[inode];
+                inode = tr[1];
+                var Bx = discretization.nodes[2 * inode];
+                var Bz = discretization.nodes[2 * inode + 1];
+                var HB = state.H[inode];
+                inode = tr[2];
+                var Cx = discretization.nodes[2 * inode];
+                var Cz = discretization.nodes[2 * inode + 1];
+                var HC = state.H[inode];
+
+                var atx = (Ax + Bx + Cx) / 3;
+                var atz = (Az + Bz + Cz) / 3;
+
+                q = fluxintriangle(
+                  Ax,
+                  Az,
+                  Bx,
+                  Bz,
+                  Cx,
+                  Cz,
+                  HA,
+                  HB,
+                  HC,
+                  physics.kxx,
+                  physics.kxz,
+                  physics.kzz
+                );
+                satx = x2s1x(atx);
+                saty = y2s1y(atz);
+                sxend = x2s1x(atx + q.qx * flength);
+                syend = y2s1y(atz + q.qz * flength);
+                if (menuchoice.arrowsareflow) {
+                  let diffx = sxend - satx;
+                  let diffy = syend - saty;
+                  let size = Math.sqrt(diffx * diffx + diffy * diffy);
+                  sxend = satx + (diffx / size) * flowdirsize;
+                  syend = saty + (diffy / size) * flowdirsize;
+                }
+                canvasarrow(ctx, satx, saty, sxend, syend, arrowhead, cutsmall);
+              }
+              ctx.closePath();
+              ctx.fillStrokeShape(shape);
+            }
+          },
+        });
+      }
+
+      var arrows2 = null;
+
+      function makearrows2() {
+        if (arrows2 !== null) {
+          arrows2.destroy();
+        }
+        arrows2 = new Konva.Shape({
+          fill: "rgb(35, 252, 0)",
+          strokeWidth: 0.6,
+          stroke: "black",
+          sceneFunc: function (ctx, shape) {
+            var cutsmall;
+            if (menuchoice.arrarrowsareflow) {
+              cutsmall = false;
+            } else {
+              cutsmall = menuchoice.cutsmallarrows;
+            }
+            var flength = Math.exp(2 * menuchoice.arrowfactor);
+            if (!(state.H == null)) {
+              var f = 1.0 / stage1.scaleX();
+              var arrowhead = [0, 0, -12 * f, 0, -12 * f, 3 * f];
+              ctx.strokeWidth = f;
+              ctx.beginPath();
+              for (const tr of discretization.elements) {
+                var inode;
+                inode = tr[0];
+                var Ax = discretization.nodes[2 * inode];
+                var Az = discretization.nodes[2 * inode + 1];
+                var HA = state.H[inode];
+                inode = tr[1];
+                var Bx = discretization.nodes[2 * inode];
+                var Bz = discretization.nodes[2 * inode + 1];
+                var HB = state.H[inode];
+                inode = tr[2];
+                var Cx = discretization.nodes[2 * inode];
+                var Cz = discretization.nodes[2 * inode + 1];
+                var HC = state.H[inode];
+
+                var atx = (Ax + Bx + Cx) / 3;
+                var atz = (Az + Bz + Cz) / 3;
+
+                var q, satx, saty, sxend, syend;
+                // triangel A-B-M
+
+                q = fluxintriangle(
+                  Ax,
+                  Az,
+                  Bx,
+                  Bz,
+                  Cx,
+                  Cz,
+                  HA,
+                  HB,
+                  HC,
+                  physics.kxx,
+                  physics.kxz,
+                  physics.kzz
+                );
+                satx = x2s2x(atx);
+                saty = y2s2y(atz);
+                sxend = x2s2x(atx + q.qx * flength);
+                syend = y2s2y(atz + q.qz * flength);
+                if (menuchoice.arrowsareflow) {
+                  let diffx = sxend - satx;
+                  let diffy = syend - saty;
+                  let size = Math.sqrt(diffx * diffx + diffy * diffy);
+                  sxend = satx + (diffx / size) * flowdirsize;
+                  syend = saty + (diffy / size) * flowdirsize;
+                }
+                canvasarrow(ctx, satx, saty, sxend, syend, arrowhead, cutsmall);
+              }
+              ctx.closePath();
+              ctx.fillStrokeShape(shape);
+            }
+          },
+        });
+      }
+
+      function fullgeoredraw() {
+        setdrain();
+        constructXYdomain();
+        constructXYwater();
+        repicgeo1();
+        resetstage1veraxis();
+        resetstage1horaxis();
+        stage1.draw();
+        repicgeo2();
+        resetstage2veraxis();
+        resetstage2horaxis();
+        stage2.draw();
+      }
+
+      function fullresultsredraw() {
+        nodes1.remove();
+        nodes2.remove();
+        makenodes();
+        cells1.remove();
+        cells2.remove();
+        maketriangles();
+        makeHtable12();
+        makeHfill1();
+        makeHfill2();
+        menuchoice.solutionready = true;
+        if (menuchoice.fillcells) {
+          sollayer1.add(Hfill1);
+
+          sollayer2.add(Hfill2);
+          sollayer2.add(Hfill2legend.Konva());
+        }
+        if (menuchoice.shownodes) {
+          numlayer1.add(nodes1);
+          numlayer2.add(nodes2);
+        }
+        if (menuchoice.showcells) {
+          numlayer1.add(cells1);
+          numlayer2.add(cells2);
+        }
+        if (menuchoice.showHtable) {
+          sollayer1.add(Htable1);
+          sollayer2.add(Htable2);
+        }
+        if (menuchoice.arrowsareflux) {
+          menuchoice.arrowsareflux = true;
+          menuchoice.arrowsareflow = false;
+          makearrows1();
+          fluxlayer1.add(arrows1);
+          makearrows2();
+          fluxlayer2.add(arrows2);
+          solutionmenu.showControl("arrow factor");
+          solutionmenu.showControl("dont draw small arrows");
+        }
+        if (menuchoice.arrowsareflow) {
+          menuchoice.arrowsareflux = false;
+          menuchoice.arrowsareflow = true;
+          makearrows1();
+          fluxlayer1.add(arrows1);
+          makearrows2();
+          fluxlayer2.add(arrows2);
+        }
+        if (menuchoice.fillcells) {
+          sollayer1.add(Hfill1legend.Konva());
+          Hfill1legend.KonvaNode.moveToTop();
+          Hfill2legend.KonvaNode.moveToTop();
+        }
+        stage1.draw();
+        stage2.draw();
+      }
+
+      var inspector1 = new Konva.Circle({
+        x: x2s1x(geo.drainwidth),
+        y: y2s1y(geo.drainbottom),
+        radius: 7,
+        fill: "#e2d563",
+        stroke: "black",
+        strokeWidth: 3,
+        draggable: true,
+      });
+
+      inspector1.on("dragmove", function () {
+        var x = s1x2x(inspector1.getX());
+        var y = s1y2y(inspector1.getY());
+        inspector2.setX(x2s2x(x));
+        inspector2.setY(y2s2y(y));
+        stage2.draw();
+      });
+
+      inspector1.on("dragend", function () {
+        var curx = s1x2x(inspector1.getX());
+        var cury = s1y2y(inspector1.getY());
+        var inode = findnearestnode(curx, cury);
+        var x = discretization.nodes[2 * inode];
+        var y = discretization.nodes[2 * inode + 1];
+        inspector1.setX(x2s1x(x));
+        inspector1.setY(y2s1y(y));
+        nodeparent.style.display = "block";
+        updatenodereport(inode);
+        stage1.draw();
+        inspector2.setX(x2s2x(x));
+        inspector2.setY(y2s2y(y));
+        stage2.draw();
+      });
+
+      var inspector2 = new Konva.Circle({
+        x: x2s2x(geo.drainwidth),
+        y: y2s2y(geo.drainbottom),
+        radius: 7,
+        fill: "#e2d563",
+        stroke: "black",
+        strokeWidth: 3,
+        draggable: true,
+      });
+
+      inspector2.on("dragmove", function () {
+        var x = s2x2x(inspector2.getX());
+        var y = s2y2y(inspector2.getY());
+        inspector1.setX(x2s1x(x));
+        inspector1.setY(y2s1y(y));
+        stage1.draw();
+      });
+
+      inspector2.on("dragend", function () {
+        var curx = s2x2x(inspector2.getX());
+        var cury = s2y2y(inspector2.getY());
+        var inode = findnearestnode(curx, cury);
+        var x = discretization.nodes[2 * inode];
+        var y = discretization.nodes[2 * inode + 1];
+        inspector1.setX(x2s1x(x));
+        inspector1.setY(y2s1y(y));
+        stage1.draw();
+        inspector2.setX(x2s2x(x));
+        inspector2.setY(y2s2y(y));
+        nodeparent.style.display = "block";
+        updatenodereport(inode);
+        stage2.draw();
+      });
+
+      // CELL
+
+      var CELLdivide1 = new Konva.Line({
+        points: [x2s1x(25), y2s1y(0), x2s1x(25), y2s1y(geo.domainheight)],
+        stroke: "rgb(197, 232, 61)",
+        strokeWidth: 5,
+        lineCap: "round",
+        lineJoin: "round",
+      });
+
+      var CELLHmean1 = new Konva.Line({
+        points: [x2s1x(0), 100, x2s1x(25), 100],
+        stroke: "rgb(197, 232, 61)",
+        strokeWidth: 3,
+        lineCap: "round",
+        lineJoin: "round",
+        dash: [7, 5],
+      });
+
+      var CELLdivide2 = new Konva.Line({
+        points: [x2s2x(25), y2s2y(0), x2s2x(25), y2s2y(geo.domainheight)],
+        stroke: "rgb(197, 232, 61)",
+        strokeWidth: 5,
+        lineCap: "round",
+        lineJoin: "round",
+      });
+
+      var CELLHmean2 = new Konva.Line({
+        points: [x2s2x(0), 100, x2s2x(25), 100],
+        stroke: "rgb(197, 232, 61)",
+        strokeWidth: 3,
+        lineCap: "round",
+        lineJoin: "round",
+        dash: [7, 5],
+      });
+
+      // newreport("CELLReport");
+      // reportsetcontent("CELLReport", " ");
+
+      function makeCELL() {
+        var result = makeCELLcalculations();
+        var mx = x2s1x(geo.CELLwidth);
+        CELLdivide1.setPoints([mx, y2s1y(0), mx, y2s1y(geo.domainheight)]);
+        var my = y2s1y(result.Hmean);
+        CELLHmean1.setPoints([x2s1x(0), my, mx, my]);
+        mx = x2s2x(geo.CELLwidth);
+        CELLdivide2.setPoints([mx, y2s2y(0), mx, y2s2y(geo.domainheight)]);
+        my = y2s2y(result.Hmean);
+        CELLHmean2.setPoints([x2s2x(0), my, mx, my]);
+        updatecellreport(result.report);
+      }
+
+      const scalefrac = 1.1;
+
+      var rescale = new Konva.Group({
+        draggable: true,
+      });
+
+      // add top Axis
+      var stage1horaxis = new Axis({
+        mdiv: 8,
+        minvalue: geo.domainwidth,
+        maxvalue: 0,
+        minx: x2s1x(geo.domainwidth),
+        maxx: x2s1x(0),
+        miny: 20,
+        maxy: 20,
+        fontsize: 14,
+        textorientation: 2,
+      });
+
+      function resetstage1horaxis() {
+        stage1horaxis.setvalues({
+          minvalue: geo.domainwidth,
+        });
+      }
+      geolayer1.add(stage1horaxis.Konva());
+
+      var stage1veraxis = new Axis({
+        mdiv: 6,
+        minvalue: geo.domainheight,
+        maxvalue: 0,
+        minx: 22,
+        maxx: 22,
+        miny: y2s1y(geo.domainheight),
+        maxy: y2s1y(0),
+        fontsize: 14,
+        textorientation: 0,
+      });
+
+      function resetstage1veraxis() {
+        stage1veraxis.setvalues({
+          minvalue: geo.domainheight,
+        });
+      }
+      geolayer1.add(stage1veraxis.Konva());
+
+      var stage2horaxis = new Axis({
+        mdiv: 8,
+        minvalue: 2 * geo.drainwidth,
+        maxvalue: 0,
+        minx: x2s2x(2 * geo.drainwidth),
+        maxx: x2s2x(0),
+        miny: 20,
+        maxy: 20,
+        fontsize: 14,
+        textorientation: 2,
+      });
+
+      function resetstage2horaxis() {
+        stage2horaxis.setvalues({
+          minvalue: 2 * geo.drainwidth,
+        });
+      }
+
+      geolayer2.add(stage2horaxis.Konva());
+
+      var stage2veraxis = new Axis({
+        mdiv: 6,
+        minvalue: geo.domainheight,
+        maxvalue: 0,
+        minx: 20,
+        maxx: 20,
+        miny: y2s2y(geo.domainheight),
+        maxy: y2s2y(0),
+        fontsize: 14,
+        textorientation: 0,
+      });
+
+      function resetstage2veraxis() {
+        stage2veraxis.setvalues({
+          minvalue: geo.domainheight,
+          miny: y2s2y(geo.domainheight),
+          maxy: y2s2y(0),
+        });
+      }
+      geolayer2.add(stage2veraxis.Konva());
+
+      // add the layers to the stages
+      stage1.add(backgroundlayer1);
+      stage1.add(geolayer1);
+      stage1.add(sollayer1);
+      stage1.add(fluxlayer1);
+      stage1.add(numlayer1);
+      stage1.add(toplayer1);
+
+      stage2.add(backgroundlayer2);
+      stage2.add(geolayer2);
+      stage2.add(sollayer2);
+      stage2.add(fluxlayer2);
+      stage2.add(numlayer2);
+      stage2.add(toplayer2);
+
+      // just for specific debugging purposes
+      debug = function () {
+        console.log("in debug")
+        modelchoicemenu.setValue("riparian connection", 1);
+        modelchoicemenu.setValue("model bottom", 1);
+        physicsmenu.setValue("recharge *1000",3)
+        
+        fmakediscretization();
+        convergence.maxiter1 = 250;
+        convergence.maxiter2 = 200;
+        fdosolve();
+        solutionmenu.setValue("fill cells with H",true)
+      };
+    </script>
+  </body>
+</html>
